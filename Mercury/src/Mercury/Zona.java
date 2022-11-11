@@ -4,6 +4,7 @@ public class Zona {
 	private String regione;
 	private String provincia;
 	private String comune;
+	
 	public Zona(String regione, String provincia, String comune) {
 		this.regione = regione;
 		this.provincia = provincia;

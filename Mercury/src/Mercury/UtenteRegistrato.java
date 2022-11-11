@@ -5,6 +5,7 @@ public class UtenteRegistrato {
 	private Zona zona;
 	private String tipo;
 	private String cadenza;
+	
 	public UtenteRegistrato(String email,Zona zona, String tipo,String cadenza) {
 		this.email = email;
 		this.zona = zona;
