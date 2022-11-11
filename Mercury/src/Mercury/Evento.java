@@ -1,4 +1,4 @@
-package Mercury;
+package Model;
 
 import java.util.Date;
 

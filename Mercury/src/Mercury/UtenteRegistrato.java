@@ -1,4 +1,4 @@
-package Mercury;
+package Model;
 
 public class UtenteRegistrato {
 	private String email;
