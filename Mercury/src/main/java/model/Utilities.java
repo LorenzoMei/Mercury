@@ -17,7 +17,7 @@ public class Utilities {
 		try {
 	    	Class.forName("com.mysql.cj.jdbc.Driver");
 	    	String url ="jdbc:mysql://127.0.0.1/mercurydb";
-	    	con = DriverManager.getConnection(url, "root", "admin");
+	    	con = DriverManager.getConnection(url, "root", "intecs");
 	        return con;
 		}
 	    catch(ClassNotFoundException e) {
@@ -223,4 +223,69 @@ public class Utilities {
     	
     	
     }
+	
+	
+	
+	public static void aggiungiEvento(Evento evento) throws SQLException {
+			
+			Connection con = connessione();
+			Statement st = con.createStatement();
+			
+			try {
+				int idZona = 0;
+				int idEnte = 0;
+				
+				
+			//ESTRAPOLA idZona	
+				try {
+		
+				ResultSet rst = st.executeQuery("SELECT idZona from mercurydb.zona WHERE regione='"+ evento.getZona().getRegione()+"'"+ 
+								"AND provincia='"+ evento.getZona().getProvincia() +"'"+ "AND comune='"+evento.getZona().getComune()+"'");
+				
+				while(rst.next()) { idZona = rst.getInt("idZona");}
+
+				
+				
+			} catch (SQLException e) {
+				System.out.println("Errore estrapolazione idzona");
+				e.printStackTrace();
+			}
+				//ESTRAPOLA idEnte
+				try {
+		 	        ResultSet rst = st.executeQuery("SELECT idEnte from ente where nomeEnte ='" + evento.getEnte().getNomeEnte() + "'");
+		 	        
+		 	       while(rst.next()) { idEnte = rst.getInt("idEnte");}
+					
+				} catch (SQLException e) {
+					 System.out.println(" errore estrapolazione id utente");
+			    	   e.printStackTrace();
+				}
+				
+				
+				//inserimento evento nella tabella  
+				String queryIns = "INSERT into evento (nome, descrizione, tipo, dataInizio, dataFine, zonaFK, enteFK) " + "VALUES ('" + evento.getNome() + "','" + 
+								   evento.getDescrizione() + "','" + evento.getTipo() + "','"+ evento.getDataInizio() + "','" +
+								   evento.getDataFine() + "','"  + idZona + "','" + idEnte + "');";
+				st.executeUpdate(queryIns);
+				
+			} catch (SQLException e) {
+				System.out.println("Errore aggiungi evento");
+				e.printStackTrace();
+			}
+		}
+
+	public static void getData() throws SQLException {
+		Connection con = connessione();
+		Statement st = con.createStatement();
+		try {
+			ResultSet rst = st.executeQuery("SELECT dataInizio FROM evento");
+			while(rst.next()) { System.out.println(rst.getDate("dataInizio"));
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("ERRORE GETDATA");
+			e.printStackTrace();
+		}
+	}
 }
+
