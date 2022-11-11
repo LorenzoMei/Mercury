@@ -1,0 +1,47 @@
+	public static void aggiungiEvento(Evento evento) throws SQLException {
+		
+		Connection con = connessione();
+		Statement st = con.createStatement();
+		
+		try {
+			int idZona = 0;
+			int idEnte = 0;
+			
+			
+		//ESTRAPOLA idZona	
+			try {
+	
+			ResultSet rst = st.executeQuery("SELECT idZona from zona where regione ='" + evento.getZona().getComune() + "' AND provincia ='" + 
+							evento.getZona().getProvincia() + "' AND comune ='" + evento.getZona().getComune() + "'");
+			
+			while(rst.next()) { idZona = rst.getInt("idZona");}
+			
+		} catch (SQLException e) {
+			System.out.println("Errore estrapolazione idzona");
+			e.printStackTrace();
+		}
+			//ESTRAPOLA idEnte
+			try {
+	 	        ResultSet rst = st.executeQuery("SELECT idEnte from ente where nomeEnte ='" + evento.getEnte().getNomeEnte() + "'");
+	 	        
+	 	       while(rst.next()) { idEnte = rst.getInt("idEnte");}
+				
+			} catch (SQLException e) {
+				 System.out.println(" errore estrapolazione id utente");
+		    	   e.printStackTrace();
+			}
+			
+			
+			
+			//inserimento evento nella tabella  
+			String queryIns = "INSERT into evento (nome, descrizione, tipo, dataInizio, dataFine, zonaFK, enteFK) " + "VALUES ('" + evento.getNome() + "','" + 
+							   evento.getDescrizione() + "','" + evento.getTipo() + "','"+ evento.getDataInizio() + "','" +
+							   evento.getDataFine() + "','"  + idZona + "','" + idEnte + "');";
+			st.executeUpdate(queryIns);
+			
+		} catch (SQLException e) {
+			System.out.println("Errore aggiungi evento");
+			e.printStackTrace();
+		}
+	}
+}
