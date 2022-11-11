@@ -9,6 +9,7 @@ public class Ente {
 	public Ente(String email,String password, String nomeEnte) {
 		this.password = password;
 		this.nomeEnte = nomeEnte;
+		this.email = email;
 	}
 	
 	
