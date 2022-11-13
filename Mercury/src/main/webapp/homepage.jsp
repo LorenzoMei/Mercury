@@ -6,7 +6,7 @@
 <head>
 <title>Page Title</title>
 
-<link rel="stylesheet" href="css/styleHomeTEST.css">
+<link rel="stylesheet" href="css/styleHome.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="scripts.js"></script>
 
