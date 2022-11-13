@@ -287,5 +287,75 @@ public class Utilities {
 			e.printStackTrace();
 		}
 	}
+	
+public static NewsLetter news(UtenteRegistrato u) {
+		
+	 ArrayList<Evento> eventi = new ArrayList<Evento>();
+	 LocalDate dataUltimoEmail = u.getUltimoEmail();
+     LocalDate dataOggi = LocalDate.now();          
+
+/* si controlla se la data dell'utlimo email con la data attuale sia superiore alla cadenza indicata dall'utente*/ 
+     
+     if(ChronoUnit.DAYS.between(dataUltimoEmail , dataOggi) >  u.getCadenza()) {
+    	 
+/* Estrapolare i dati degli evento che ci servono dal database facendo join tra evento, zona e ente
+   e selezionare solo quelli dopo la data odierna */	
+			try {
+
+					Connection con = connessione();
+					Statement st = con.createStatement();
+					String query = "select * from mercurydb.evento join mercurydb.zona on evento.zonaFK=idZona join mercurydb.ente on evento.enteFK=ente.idEnte "
+							     + "where (dataInizio > CAST( curdate() AS DATE))";
+					ResultSet rst = st.executeQuery(query);
+
+					while(rst.next()) {
+						Zona z = new Zona(""+rst.getString("regione"), ""+rst.getString("provincia"), ""+rst.getString("comune"));
+						Ente e = new Ente("privato", "privato", rst.getString("nomeEnte"),"privato", "privato");
+						Evento evento = new Evento(rst.getString("nome"), rst.getString("descrizione"), z, "" + rst.getString("tipo"), rst.getDate("dataInizio"), rst.getDate("dataFine"), e);
+				        eventi.add(evento);
+					                 }
+				 }  catch (SQLException e) {
+					 System.out.println(" errore newsletter");
+			    	   e.printStackTrace();
+				                           }
+  	                             };
+
+/* si prende ArrayList eventi e si filtra in base all'utente zona comune e provincia*/		
+  	                             
+for( int i = 0; i < eventi.size(); i++) {
+	
+// filtra tipo in base all'utente	*/
+  	    	
+	    if (!u.getTipo().equals("")) {	
+			if(!eventi.get(i).getTipo().equals(u.getTipo())) {
+				eventi.remove(i);
+				i--;
+			}
+		}
+		
+// filtra zona in base all'utente		
+	
+		if(!u.getZona().getComune().equals("")) {
+			if(!eventi.get(i).getZona().getComune().equals(u.getZona().getComune())) {
+				eventi.remove(i);
+				i--;
+			} 
+		} else if(!u.getZona().getProvincia().equals("")) {
+			if(!eventi.get(i).getZona().getProvincia().equals(u.getZona().getProvincia())) {
+				eventi.remove(i);
+				i--;
+		    } 
+		} else if(!u.getZona().getRegione().equals("")) {
+			if(!eventi.get(i).getZona().getRegione().equals(u.getZona().getRegione())) {
+				eventi.remove(i);
+				i--;
+		    } 
+		} 
+	
+ } 
+			
+			NewsLetter lettera = new NewsLetter(eventi,u);
+			return lettera;	
+}
 }
 
