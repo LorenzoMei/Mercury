@@ -274,19 +274,6 @@ public class Utilities {
 			}
 		}
 
-	public static void getData() throws SQLException {
-		Connection con = connessione();
-		Statement st = con.createStatement();
-		try {
-			ResultSet rst = st.executeQuery("SELECT dataInizio FROM evento");
-			while(rst.next()) { System.out.println(rst.getDate("dataInizio"));
-			}
-			
-		} catch (SQLException e) {
-			System.out.println("ERRORE GETDATA");
-			e.printStackTrace();
-		}
-	}
 	
 public static NewsLetter news(UtenteRegistrato u) {
 		
