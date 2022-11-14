@@ -17,10 +17,10 @@
 		<table border="1">
             
             <tr>
+		<th width=10%>Email</th>
                 <th width=10%>Nome Ente</th>
                 <th width=10%>Nome Responsabile</th>
                 <th width=10%>Cognome Responsabile</th>
-                <th width=10%>Email</th>
                 <th width=10%>Azione</th>
             </tr>
             
