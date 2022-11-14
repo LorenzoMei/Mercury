@@ -1,10 +1,15 @@
 package model;
 
+import java.util.ArrayList;
+
 public class NewsLetter {
-private Evento[] eventi;
+private ArrayList<Evento> eventi = new ArrayList<Evento>();
 private UtenteRegistrato utente;
 
-public NewsLetter(Evento[] eventi, UtenteRegistrato utente) {
+
+
+public NewsLetter(ArrayList<Evento> eventi, UtenteRegistrato utente) {
+	super();
 	this.eventi = eventi;
 	this.utente = utente;
 }
@@ -17,11 +22,11 @@ public void setUtente(UtenteRegistrato utente) {
 	this.utente = utente;
 }
 
-public Evento[] getEventi() {
- return eventi;
+public ArrayList<Evento> getEventi() {
+	return eventi;
 }
 
-public void setEventi(Evento[] eventi) {
+public void setEventi(ArrayList<Evento> eventi) {
 	this.eventi = eventi;
 }
 
