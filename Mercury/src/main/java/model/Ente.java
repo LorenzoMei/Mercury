@@ -21,6 +21,13 @@ public class Ente {
 		this.email = email;
 	}
 	
+	public Ente(String email, String nomeEnte, String nomeResponsabile, String cognomeResponsabile) {
+		this.nomeEnte = nomeEnte;
+		this.email = email;
+		this.nomeResponsabile = nomeResponsabile;
+		this.cognomeResponsabile = cognomeResponsabile;
+	}
+	
 
 	public String getEmail() {
 		return email;

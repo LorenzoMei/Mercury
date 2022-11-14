@@ -228,15 +228,16 @@ public class Utilities {
 		List<Ente> listaEnti = null;
 		try {
 			Statement st = con.createStatement();
-			ResultSet rst = st.executeQuery("SELECT * FROM ente join utente on ente.utenteFk = utente.idUtente");
+			ResultSet rst = st.executeQuery("SELECT * FROM ente join utente on ente.utenteFk = utente.idUtente WHERE stato = attivo");
 			
 			listaEnti = new ArrayList<Ente>();
 			
 			while(rst.next()) {
 				String email = rst.getString("email");			
 				String nomeEnte = rst.getString("nomeEnte");
-				
-				Ente ente = new Ente(email, nomeEnte);
+				String nomeResponsabile = rst.getString("nomeResponsabile");
+				String cognomeResponsabile = rst.getString("nomeResponsabile");
+				Ente ente = new Ente(email, nomeEnte, nomeResponsabile, cognomeResponsabile);
 				
 				listaEnti.add(ente);
 				
