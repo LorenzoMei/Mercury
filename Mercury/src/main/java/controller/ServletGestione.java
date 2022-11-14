@@ -1,5 +1,6 @@
 package controller;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -41,36 +42,37 @@ public class ServletGestione extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
 		
-		int operazione = (int)request.getAttribute("operazione");
+		int operazione = Integer.parseInt(request.getParameter("operazione"));
 		
 		switch(operazione) {
 			case 1:
-				String email = (String) request.getAttribute("email");
-				String password = (String) request.getAttribute("password");
-				String nomeEnte = (String) request.getAttribute("nomeEnte");
-				String nomeResponsabile = (String) request.getAttribute("nomeResponsabile");
-				String cognomeResponsabile = (String) request.getAttribute("cognomeResponsabile");
+				
+				String email = (String) request.getParameter("email");
+				String password = (String) request.getParameter("password");
+				String nomeEnte = (String) request.getParameter("nomeEnte");
+				String nomeResponsabile = (String) request.getParameter("nomeResponsabile");
+				String cognomeResponsabile = (String) request.getParameter("cognomeResponsabile");
 				
 				Ente ente = new Ente(email, password, nomeEnte, nomeResponsabile, cognomeResponsabile);
 				Utilities.aggiungiEnte(ente);
 				
+				request.getRequestDispatcher("homepage.jsp").forward(request, response);
 				break;
 			case 2:
-				Utilities.bannaEnte((String) request.getAttribute("email"));
+				Utilities.bannaEnte((String) request.getParameter("email"));
 				
 				break;
 			case 3:
-				String emailNews = (String) request.getAttribute("emailNews");
+				String emailNews = (String) request.getParameter("emailNews");
 				
-				String regione = (String) request.getAttribute("regione");
-				String provincia = (String) request.getAttribute("provincia");
-				String comune = (String) request.getAttribute("comune");
+				String regione = (String) request.getParameter("regione");
+				String provincia = (String) request.getParameter("provincia");
+				String comune = (String) request.getParameter("comune");
 				Zona zona = new Zona(regione, provincia, comune);
 				
-				String tipo = (String) request.getAttribute("tipo");
-				String cadenza = (String) request.getAttribute("cadenza");
+				String tipo = (String) request.getParameter("tipo");
+				String cadenza = (String) request.getParameter("cadenza");
 				
 				UtenteRegistrato utenteRegistrato = new UtenteRegistrato(emailNews, zona, tipo, cadenza, LocalDate.now());
 				Utilities.iscrizioneNews(utenteRegistrato);

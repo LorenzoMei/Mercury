@@ -37,7 +37,7 @@ public class ServletEventi extends HttpServlet {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 		
-		int operation = (int) request.getAttribute("operation");
+		int operation = Integer.parseInt(request.getParameter("operation"));
 		
 		switch(operation) {
 			case 1:
