@@ -89,13 +89,12 @@ public class Utilities {
 	}
 
 	
-
 	public static List<Evento> listaEventi(){
 		List<Evento> listaEventi = null;
 		try {
 			Statement st = con.createStatement();
 			ResultSet rst = st.executeQuery("SELECT * FROM evento join zona on"
-					+ " zona.idZona = evento.zonaFk join ente on ente.idEnte = evento.enteFk");
+					+ " zona.idZona = evento.zonaFk join ente on ente.idEnte = evento.enteFk join utente on utente.idUtente = ente.utenteFk");
 			
 			listaEventi = new ArrayList<Evento>();
 			
@@ -127,8 +126,6 @@ public class Utilities {
 		return listaEventi;
 	}
 
-
-	
 	public static void iscrizioneNews(UtenteRegistrato utenteRegistrato) {
 		try {
 			Statement st = con.createStatement();
@@ -188,20 +185,15 @@ public class Utilities {
 	    
 	    try {
 	    	Statement st = con.createStatement();
-	    	String query = "Select * from utente where email='" + email + "' AND password='" + password + "'";
+	    	String query = "Select * from utente join ente on ente.utenteFk = utente.idUtente "
+	    			+ "where email='" + email + "' AND password='" + password + "'";
 	    	ResultSet rst = st.executeQuery(query);
 	    	
 	    	while(rst.next()) {
 	    		if(rst.getString("ruolo").equals("ente")) {
 	    			Ente ente = new Ente(rst.getString("email"), rst.getString("password"),
-	    					    rst.getString("idUtente"), rst.getString("nome"), rst.getString("cognome"));
+	    					    rst.getString("nomeEnte"), rst.getString("nome"), rst.getString("cognome"));
 	    			
-	    			query = "Select nomeEnte from ente where utenteFK='" + ente.getNomeEnte()+"'";
-	    			ResultSet rst2 = st.executeQuery(query);
-	    			
-	    			while(rst2.next()) {
-	    				ente.setNomeEnte(rst.getString("nomeEnte"));
-	    			}
 	    			utente = ente;
 	    			
 	    		}
@@ -273,6 +265,29 @@ public class Utilities {
 			}
 		}
 
+	public static List<Ente> listaEnti(){
+		List<Ente> listaEnti = null;
+		try {
+			Statement st = con.createStatement();
+			ResultSet rst = st.executeQuery("SELECT * FROM ente join utente on ente.utenteFk = utente.idUtente");
+			
+			listaEnti = new ArrayList<Ente>();
+			
+			while(rst.next()) {
+				String email = rst.getString("email");			
+				String nomeEnte = rst.getString("nomeEnte");
+				
+				Ente ente = new Ente(email, nomeEnte);
+				
+				listaEnti.add(ente);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return listaEnti;
+	}
 	
 	public static NewsLetter news(UtenteRegistrato u) {
 			
