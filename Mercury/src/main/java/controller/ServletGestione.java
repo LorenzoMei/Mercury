@@ -35,7 +35,8 @@ public class ServletGestione extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		Utilities.bannaEnte((String) request.getParameter("email"));
 	}
 
 	/**
@@ -61,7 +62,7 @@ public class ServletGestione extends HttpServlet {
 				request.getRequestDispatcher("homepage.jsp").forward(request, response);
 				break;
 			case 2:
-				Utilities.bannaEnte((String) request.getParameter("email"));
+				
 				
 				break;
 			case 3:
@@ -78,11 +79,6 @@ public class ServletGestione extends HttpServlet {
 				UtenteRegistrato utenteRegistrato = new UtenteRegistrato(emailNews, zona, tipo, cadenza, LocalDate.now());
 				Utilities.iscrizioneNews(utenteRegistrato);
 				
-				break;
-			case 4:
-				List<Ente> listaEnti = Utilities.listaEnti();
-				
-				request.setAttribute("listaEnti", listaEnti);
 				break;
 		}
 	}

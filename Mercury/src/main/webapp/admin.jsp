@@ -3,7 +3,6 @@
 <%@page import="model.Utilities"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +21,6 @@
                 <th width=10%>Nome Responsabile</th>
                 <th width=10%>Cognome Responsabile</th>
                 <th width=10%>Email</th>
-                <th width=10%>Stato</th>
                 <th width=10%>Azione</th>
             </tr>
             
@@ -39,7 +37,7 @@
                     <td><%out.println(e.getCognomeResponsabile()); %></td>
                     
                      <td>
-                     <a href="delete?id=<c:out value='${user.id}' />">Banna</a>                     
+                     <a href="ServletGestione?email=<% out.println(e.getEmail()); %>">Banna</a>                     
                     </td>
                 </tr>
             	<%

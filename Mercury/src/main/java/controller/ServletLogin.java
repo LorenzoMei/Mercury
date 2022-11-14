@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
 import model.Amministratore;
 import model.Ente;
@@ -33,6 +34,8 @@ public class ServletLogin extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
+		request.getRequestDispatcher("login.html").forward(request, response);
+		
 	}
 
 	/**
@@ -47,20 +50,19 @@ public class ServletLogin extends HttpServlet {
 		String password = request.getParameter("password");
 		
 		Object utente = Utilities.login(email, password);
-		RequestDispatcher dispatcher = null;
 		
 		if(utente instanceof Amministratore){
-			dispatcher = request.getRequestDispatcher("amministratore.html");
+			List<Ente> listaEnti = Utilities.listaEnti();
+			request.setAttribute("listaEnti", listaEnti);
+			request.getRequestDispatcher("admin.jsp").forward(request, response);
 		}
 		else if(utente instanceof Ente) {
-			dispatcher = request.getRequestDispatcher("ente.html");
+			request.getRequestDispatcher("ente.html").forward(request, response);
 		}
 		else {
 			out.println("Login errato");
 		}
-		
-		dispatcher.forward(request, response);
-		Utilities.close();
+	
 	}
 
 }

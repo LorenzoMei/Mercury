@@ -19,7 +19,7 @@ public class Utilities {
 		try {
 	    	Class.forName("com.mysql.cj.jdbc.Driver");
 	    	String url ="jdbc:mysql://127.0.0.1/mercurydb";
-	    	con = DriverManager.getConnection(url, "root", "abcdefg");
+	    	con = DriverManager.getConnection(url, "root", "admin");
 		}
 	    catch(ClassNotFoundException e) {
 	    	System.out.println("errore");
@@ -161,7 +161,6 @@ public class Utilities {
 	public static void bannaEnte(String email) {
 		try {
 			Statement st = con.createStatement();
-			
 			ResultSet rst = st.executeQuery("SELECT idEnte FROM ente join utente on "
 					+ "ente.utenteFk = utente.idUtente WHERE email = '" + email +"'");
 			
@@ -228,15 +227,15 @@ public class Utilities {
 		List<Ente> listaEnti = null;
 		try {
 			Statement st = con.createStatement();
-			ResultSet rst = st.executeQuery("SELECT * FROM ente join utente on ente.utenteFk = utente.idUtente WHERE stato = attivo");
+			ResultSet rst = st.executeQuery("SELECT * FROM ente join utente on ente.utenteFk = utente.idUtente WHERE stato = 'attivo'");
 			
 			listaEnti = new ArrayList<Ente>();
 			
 			while(rst.next()) {
 				String email = rst.getString("email");			
 				String nomeEnte = rst.getString("nomeEnte");
-				String nomeResponsabile = rst.getString("nomeResponsabile");
-				String cognomeResponsabile = rst.getString("nomeResponsabile");
+				String nomeResponsabile = rst.getString("nome");
+				String cognomeResponsabile = rst.getString("cognome");
 				Ente ente = new Ente(email, nomeEnte, nomeResponsabile, cognomeResponsabile);
 				
 				listaEnti.add(ente);
@@ -353,42 +352,41 @@ System.out.println(idEnte);
 	
 	/* si prende ArrayList eventi e si filtra in base all'utente zona comune e provincia*/		
 	  	                             
-	for( int i = 0; i < eventi.size(); i++) {
-		
-	// filtra tipo in base all'utente	*/
-	  	    	
-		    if (!u.getTipo().equals("")) {	
-				if(!eventi.get(i).getTipo().equals(u.getTipo())) {
-					eventi.remove(i);
-					i--;
+		for( int i = 0; i < eventi.size(); i++) {
+			
+		// filtra tipo in base all'utente	*/
+		  	    	
+			    if (!u.getTipo().equals("")) {	
+					if(!eventi.get(i).getTipo().equals(u.getTipo())) {
+						eventi.remove(i);
+						i--;
+					}
 				}
-			}
-	} 	
-//filtra zona in base all'utente		
-
-for( int k = 0; k < eventi.size(); k++) {	
+		} 	
+		//filtra zona in base all'utente		
 	
-		if(u.getZona().getComune() != 0) {
-			if(eventi.get(k).getZona().getComune() != u.getZona().getComune()) {
-				eventi.remove(k);
-				k--;
-			} 
-		} else if(u.getZona().getProvincia() != 0 ) {
-			if(eventi.get(k).getZona().getProvincia() != u.getZona().getProvincia()) {
-				eventi.remove(k);
-				k--;
-		    } 
-		} else if(u.getZona().getRegione() != 0) {
-			if(eventi.get(k).getZona().getRegione() != u.getZona().getRegione()) {
-				eventi.remove(k);
-				k--;
-		    } 
-		} 
-	
-} }
+			for( int k = 0; k < eventi.size(); k++) {	
+				
+					if(u.getZona().getComune() != 0) {
+						if(eventi.get(k).getZona().getComune() != u.getZona().getComune()) {
+							eventi.remove(k);
+							k--;
+						} 
+					} else if(u.getZona().getProvincia() != 0 ) {
+						if(eventi.get(k).getZona().getProvincia() != u.getZona().getProvincia()) {
+							eventi.remove(k);
+							k--;
+					    } 
+					} else if(u.getZona().getRegione() != 0) {
+						if(eventi.get(k).getZona().getRegione() != u.getZona().getRegione()) {
+							eventi.remove(k);
+							k--;
+					    } 
+					} 
+				
+			} }
 			
 			NewsLetter lettera = new NewsLetter(eventi,u);
 			return lettera;	
+	}
 }
-}
-
