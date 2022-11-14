@@ -1,3 +1,6 @@
+<%@page import="model.Ente"%>
+<%@page import="java.util.List"%>
+<%@page import="model.Utilities"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -22,18 +25,26 @@
                 <th width=10%>Stato</th>
                 <th width=10%>Azione</th>
             </tr>
-            <c:forEach var="ente" items="${ente}">
+            
+            <%
+            List<Ente> enti = (List<Ente>)request.getAttribute("listaEnti");
+            
+            for(Ente e : enti){
+            	%>
+            
             <tr>
-            		<td><c:out value="${ente.email}" /></td>
-                    <td><c:out value="${ente.nomeEnte}" /></td>
-                    <td><c:out value="${ente.nomeResponsabile}" /></td>
-                    <td><c:out value="${ente.cognomeResponsabile}" /></td>
-                    <td><c:out value="${ente.stato}" /></td>
+            		<td><% out.println(e.getEmail()); %></td>
+                    <td><% out.println(e.getNomeEnte()); %></td>
+                    <td><% out.println(e.getNomeResponsabile()); %></td>
+                    <td><%out.println(e.getCognomeResponsabile()); %></td>
+                    
                      <td>
                      <a href="delete?id=<c:out value='${user.id}' />">Banna</a>                     
                     </td>
                 </tr>
-            </c:forEach>
+            	<%
+            }
+            %>
         </table>
 	</div>
 
