@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +19,7 @@ public class Utilities {
 		try {
 	    	Class.forName("com.mysql.cj.jdbc.Driver");
 	    	String url ="jdbc:mysql://127.0.0.1/mercurydb";
-	    	con = DriverManager.getConnection(url, "root", "intecs");
+	    	con = DriverManager.getConnection(url, "root", "abcdefg");
 	        return con;
 		}
 	    catch(ClassNotFoundException e) {
@@ -90,6 +92,8 @@ public class Utilities {
 	    	   }  
 	}
 
+	
+
 	public static List<Evento> listaEventi(){
 		List<Evento> listaEventi = null;
 		try {
@@ -126,6 +130,8 @@ public class Utilities {
 		}
 		return listaEventi;
 	}
+
+
 	
 	public static void iscrizioneNews(UtenteRegistrato utenteRegistrato) {
 		try {
@@ -190,15 +196,16 @@ public class Utilities {
 	    try {
 	    	String query = "Select * from utente where email='" + email + "' AND password='" + password + "'";
 	    	ResultSet rst = st.executeQuery(query);
+	    	
 	    	while(rst.next()) {
 	    		if(rst.getString("ruolo").equals("ente")) {
 	    			Ente ente = new Ente(rst.getString("email"), rst.getString("password"),
 	    					    rst.getString("idUtente"), rst.getString("nome"), rst.getString("cognome"));
 	    			
 	    			query = "Select nomeEnte from ente where utenteFK='" + ente.getNomeEnte()+"'";
-	    			rst = st.executeQuery(query);
+	    			ResultSet rst2 = st.executeQuery(query);
 	    			
-	    			while(rst.next()) {
+	    			while(rst2.next()) {
 	    				ente.setNomeEnte(rst.getString("nomeEnte"));
 	    			}
 	    			utente = ente;
@@ -319,23 +326,25 @@ for( int i = 0; i < eventi.size(); i++) {
 				i--;
 			}
 		}
-		
+} 	
 // filtra zona in base all'utente		
+
+for( int k = 0; k < eventi.size(); k++) {	
 	
 		if(!u.getZona().getComune().equals("")) {
-			if(!eventi.get(i).getZona().getComune().equals(u.getZona().getComune())) {
-				eventi.remove(i);
-				i--;
+			if(!eventi.get(k).getZona().getComune().equals(u.getZona().getComune())) {
+				eventi.remove(k);
+				k--;
 			} 
 		} else if(!u.getZona().getProvincia().equals("")) {
-			if(!eventi.get(i).getZona().getProvincia().equals(u.getZona().getProvincia())) {
-				eventi.remove(i);
-				i--;
+			if(!eventi.get(k).getZona().getProvincia().equals(u.getZona().getProvincia())) {
+				eventi.remove(k);
+				k--;
 		    } 
 		} else if(!u.getZona().getRegione().equals("")) {
-			if(!eventi.get(i).getZona().getRegione().equals(u.getZona().getRegione())) {
-				eventi.remove(i);
-				i--;
+			if(!eventi.get(k).getZona().getRegione().equals(u.getZona().getRegione())) {
+				eventi.remove(k);
+				k--;
 		    } 
 		} 
 	
@@ -345,4 +354,3 @@ for( int i = 0; i < eventi.size(); i++) {
 			return lettera;	
 }
 }
-
