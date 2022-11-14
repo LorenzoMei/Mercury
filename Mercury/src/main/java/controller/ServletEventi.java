@@ -42,15 +42,10 @@ public class ServletEventi extends HttpServlet {
 		switch(operation) {
 			case 1:
 				List<Evento> listaEventi = Utilities.listaEventi();
+				request.setAttribute("listaEventi", listaEventi);
 				
 				break;
 			case 2: 
-				//Evento evento = Utilities.mostraEvento();
-				RequestDispatcher dispatcher = request.getRequestDispatcher("evento.jsp");
-				dispatcher.forward(request, response);
-				
-				break;
-			case 3: 
 				String nome = (String) request.getAttribute("nome");
 				String descrizione = (String) request.getAttribute("descrizione");
 				
@@ -62,17 +57,16 @@ public class ServletEventi extends HttpServlet {
 				String tipo = (String) request.getAttribute("tipo");
 				Date dataInizio = (Date) request.getAttribute("dataInizio");
 				Date dataFine = (Date) request.getAttribute("dataFine");
-				//Ente ente = new Ente(Utilities.caricaEnte(request.getAttribute("email")));
 				
-				//Evento evento = new Evento(nome, descrizione, zona, tipo, dataInizio, dataFine);
-				//Utilities.aggiungiEvento(evento);
+				String nomeEnte = (String) request.getAttribute("nomeEnte");
+				String email = (String) request.getAttribute("email");
+				
+				Ente ente = new Ente(nomeEnte, email);
+				
+				Evento evento = new Evento(nome, descrizione, zona, tipo, dataInizio, dataFine, ente);
+				Utilities.aggiungiEvento(evento);
 				
 				break;
-			case 4:
-				//Utilities.filtraData(request.getAttribute("dataInizio"),
-					//request.getAttribute("dataFine"), request.getAttribute("listaEventi"));
-				//Utilities.filtraZona(request.getAttribute("zona"));
-				//Utilities.filtraTipo(request.getAttribute("filtraTipo"));
 		}
 	}
 

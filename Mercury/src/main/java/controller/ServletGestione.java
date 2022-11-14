@@ -53,17 +53,11 @@ public class ServletGestione extends HttpServlet {
 				String cognomeResponsabile = (String) request.getAttribute("cognomeResponsabile");
 				
 				Ente ente = new Ente(email, password, nomeEnte, nomeResponsabile, cognomeResponsabile);
-				try {
-					Utilities.aggiungiEnte(ente);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				Utilities.aggiungiEnte(ente);
 				
 				break;
 			case 2:
-				//Ente enteBan = Utilities.caricaEnte(request.getAttribute("email"));
-				//Utilities.bannaEnte(enteBan);
+				Utilities.bannaEnte((String) request.getAttribute("email"));
 				
 				break;
 			case 3:

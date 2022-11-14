@@ -45,11 +45,10 @@ public class ServletLogin extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
-		/*Object utente = Utilities.login(email, password);
-		RequestDispatcher dispatcher;
+		Object utente = Utilities.login(email, password);
+		RequestDispatcher dispatcher = null;
 		
-		if(utente instanceof Amministratore)
-		{
+		if(utente instanceof Amministratore){
 			dispatcher = request.getRequestDispatcher("amministratore.html");
 		}
 		else if(utente instanceof Ente) {
@@ -59,7 +58,7 @@ public class ServletLogin extends HttpServlet {
 			out.println("Login errato");
 		}
 		
-		dispatcher.forward(request, response);*/
+		dispatcher.forward(request, response);
 	}
 
 }
