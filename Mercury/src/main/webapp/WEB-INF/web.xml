@@ -18,6 +18,7 @@
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
+    <welcome-file>homepage.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
     <description></description>

@@ -40,6 +40,7 @@ public class ServletLogin extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		Utilities.connessione();
 		PrintWriter out = response.getWriter();
 		
 		String email = request.getParameter("email");
@@ -59,6 +60,7 @@ public class ServletLogin extends HttpServlet {
 		}
 		
 		dispatcher.forward(request, response);
+		Utilities.close();
 	}
 
 }

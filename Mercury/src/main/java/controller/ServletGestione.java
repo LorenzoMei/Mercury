@@ -12,6 +12,7 @@ import model.Zona;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 /**
  * Servlet implementation class ServletGestione
@@ -71,7 +72,7 @@ public class ServletGestione extends HttpServlet {
 				String tipo = (String) request.getAttribute("tipo");
 				String cadenza = (String) request.getAttribute("cadenza");
 				
-				UtenteRegistrato utenteRegistrato = new UtenteRegistrato(emailNews, zona, tipo, cadenza, null);
+				UtenteRegistrato utenteRegistrato = new UtenteRegistrato(emailNews, zona, tipo, cadenza, LocalDate.now());
 				Utilities.iscrizioneNews(utenteRegistrato);
 				
 				break;

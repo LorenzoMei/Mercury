@@ -14,13 +14,12 @@ import java.util.List;
 public class Utilities {
 	private static Connection con;
 
-	public static Connection connessione() {
-		
+	public static void connessione() {
+			
 		try {
 	    	Class.forName("com.mysql.cj.jdbc.Driver");
 	    	String url ="jdbc:mysql://127.0.0.1/mercurydb";
-	    	con = DriverManager.getConnection(url, "root", "abcdefg");
-	        return con;
+	    	con = DriverManager.getConnection(url, "root", "admin");
 		}
 	    catch(ClassNotFoundException e) {
 	    	System.out.println("errore");
@@ -30,9 +29,8 @@ public class Utilities {
 	    	System.out.println("Errore get connection");
 	    	e.printStackTrace();
 	    }
-		return con = null;
 		
-		}
+	}
 
 	public static void close() {
 		try {
@@ -151,7 +149,6 @@ public class Utilities {
 			int result = st.executeUpdate("INSERT INTO utenteregistrato (email, tipo, cadenza, zonaFk) VALUES ('" + utenteRegistrato.getEmail() + "', '" 
 					+ utenteRegistrato.getTipo() + "', '" + utenteRegistrato.getCadenza() + "', " 
 					+ Integer.toString(idZona) + ")" );
-			
 			if(result != 1) {
 				System.out.println("Iscrizione newsletters non andata a buon fine");
 			}
@@ -190,7 +187,7 @@ public class Utilities {
 	    Object utente = null;
 	    
 	    try {
-	    	Statement st=con.createStatement();
+	    	Statement st = con.createStatement();
 	    	String query = "Select * from utente where email='" + email + "' AND password='" + password + "'";
 	    	ResultSet rst = st.executeQuery(query);
 	    	
@@ -291,7 +288,6 @@ public class Utilities {
 	   e selezionare solo quelli dopo la data odierna */	
 				try {
 	
-						Connection con = connessione();
 						Statement st = con.createStatement();
 						String query = "select * from mercurydb.evento join mercurydb.zona on evento.zonaFK=idZona join mercurydb.ente on evento.enteFK=ente.idEnte "
 								     + "where (dataInizio > CAST( curdate() AS DATE))";
