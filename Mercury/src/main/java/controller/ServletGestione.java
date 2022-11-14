@@ -14,6 +14,7 @@ import model.Zona;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Servlet implementation class ServletGestione
@@ -77,6 +78,11 @@ public class ServletGestione extends HttpServlet {
 				UtenteRegistrato utenteRegistrato = new UtenteRegistrato(emailNews, zona, tipo, cadenza, LocalDate.now());
 				Utilities.iscrizioneNews(utenteRegistrato);
 				
+				break;
+			case 4:
+				List<Ente> listaEnti = Utilities.listaEnti();
+				
+				request.setAttribute("listaEnti", listaEnti);
 				break;
 		}
 	}
