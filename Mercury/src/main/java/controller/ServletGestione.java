@@ -67,9 +67,9 @@ public class ServletGestione extends HttpServlet {
 			case 3:
 				String emailNews = (String) request.getParameter("emailNews");
 				
-				String regione = (String) request.getParameter("regione");
-				String provincia = (String) request.getParameter("provincia");
-				String comune = (String) request.getParameter("comune");
+				int regione = Integer.parseInt(request.getParameter("regione"));
+				int provincia = Integer.parseInt(request.getParameter("provincia"));
+				int comune = Integer.parseInt(request.getParameter("comune"));
 				Zona zona = new Zona(regione, provincia, comune);
 				
 				String tipo = (String) request.getParameter("tipo");
