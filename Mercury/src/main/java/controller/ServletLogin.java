@@ -57,7 +57,7 @@ public class ServletLogin extends HttpServlet {
 			request.getRequestDispatcher("admin.jsp").forward(request, response);
 		}
 		else if(utente instanceof Ente) {
-			request.getRequestDispatcher("ente.html").forward(request, response);
+			request.getRequestDispatcher("ente.jsp").forward(request, response);
 		}
 		else {
 			out.println("Login errato");
