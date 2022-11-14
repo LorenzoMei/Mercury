@@ -71,7 +71,7 @@ public class ServletGestione extends HttpServlet {
 				String tipo = (String) request.getAttribute("tipo");
 				String cadenza = (String) request.getAttribute("cadenza");
 				
-				UtenteRegistrato utenteRegistrato = new UtenteRegistrato(emailNews, zona, tipo, cadenza);
+				UtenteRegistrato utenteRegistrato = new UtenteRegistrato(emailNews, zona, tipo, cadenza, null);
 				Utilities.iscrizioneNews(utenteRegistrato);
 				
 				break;

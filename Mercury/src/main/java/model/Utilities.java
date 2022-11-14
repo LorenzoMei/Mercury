@@ -43,18 +43,16 @@ public class Utilities {
 		}
 	}
 	
-	public static void aggiungiEnte(Ente ente) throws SQLException {
-		
-		Connection con = connessione();
-	    Statement st=con.createStatement();
-	    
+	public static void aggiungiEnte(Ente ente) {
+		Statement st = null;
 /* inserimento dati dell'ente nella tabella utente */	    
 		try {
-	    String queryIns = " INSERT INTO utente ( nome, cognome, email, password, ruolo) "
+			st = con.createStatement();
+			String queryIns = " INSERT INTO utente ( nome, cognome, email, password, ruolo) "
 	    		         + " VALUES ('"+ ente.getNomeResponsabile() +"','"+ ente.getCognomeResponsabile() + "','" + ente.getEmail() 
 	    		         + "','" + ente.getPassword() + " ','ente');";
 	    
-	    st.executeUpdate(queryIns);
+			st.executeUpdate(queryIns);
 	    } 
 		
 		catch(SQLException e){
@@ -163,12 +161,12 @@ public class Utilities {
 		}
 	}
 	
-	public static void bannaEnte(Ente ente) {
+	public static void bannaEnte(String email) {
 		try {
 			Statement st = con.createStatement();
 			
 			ResultSet rst = st.executeQuery("SELECT idEnte FROM ente join utente on "
-					+ "ente.utenteFk = utente.idUtente WHERE email = '" + ente.getEmail() +"'");
+					+ "ente.utenteFk = utente.idUtente WHERE email = '" + email +"'");
 			
 			if(rst.next()) {
 				int n = st.executeUpdate("UPDATE ente SET stato = 'bannato' WHERE idEnte = " 
@@ -187,13 +185,12 @@ public class Utilities {
 		
 	}
 	
-	public static Object login(String email, String password) throws SQLException {
+	public static Object login(String email, String password) {
 	    
-    	Connection con = connessione();
-	    Statement st=con.createStatement();
 	    Object utente = null;
 	    
 	    try {
+	    	Statement st=con.createStatement();
 	    	String query = "Select * from utente where email='" + email + "' AND password='" + password + "'";
 	    	ResultSet rst = st.executeQuery(query);
 	    	
@@ -233,12 +230,10 @@ public class Utilities {
 	
 	
 	
-	public static void aggiungiEvento(Evento evento) throws SQLException {
-			
-			Connection con = connessione();
-			Statement st = con.createStatement();
+	public static void aggiungiEvento(Evento evento) {
 			
 			try {
+				Statement st = con.createStatement();
 				int idZona = 0;
 				int idEnte = 0;
 				
@@ -259,7 +254,7 @@ public class Utilities {
 			}
 				//ESTRAPOLA idEnte
 				try {
-		 	        ResultSet rst = st.executeQuery("SELECT idEnte from ente where nomeEnte ='" + evento.getEnte().getNomeEnte() + "'");
+		 	        ResultSet rst = st.executeQuery("SELECT idEnte from ente where nomeEnte ='" + evento.getEnte().getEmail() + "'");
 		 	        
 		 	       while(rst.next()) { idEnte = rst.getInt("idEnte");}
 					
@@ -282,51 +277,51 @@ public class Utilities {
 		}
 
 	
-public static NewsLetter news(UtenteRegistrato u) {
-		
-	 ArrayList<Evento> eventi = new ArrayList<Evento>();
-	 LocalDate dataUltimoEmail = u.getUltimoEmail();
-     LocalDate dataOggi = LocalDate.now();          
-
-/* si controlla se la data dell'utlimo email con la data attuale sia superiore alla cadenza indicata dall'utente*/ 
-     
-     if(ChronoUnit.DAYS.between(dataUltimoEmail , dataOggi) >  u.getCadenza()) {
-    	 
-/* Estrapolare i dati degli evento che ci servono dal database facendo join tra evento, zona e ente
-   e selezionare solo quelli dopo la data odierna */	
-			try {
-
-					Connection con = connessione();
-					Statement st = con.createStatement();
-					String query = "select * from mercurydb.evento join mercurydb.zona on evento.zonaFK=idZona join mercurydb.ente on evento.enteFK=ente.idEnte "
-							     + "where (dataInizio > CAST( curdate() AS DATE))";
-					ResultSet rst = st.executeQuery(query);
-
-					while(rst.next()) {
-						Zona z = new Zona(""+rst.getString("regione"), ""+rst.getString("provincia"), ""+rst.getString("comune"));
-						Ente e = new Ente("privato", "privato", rst.getString("nomeEnte"),"privato", "privato");
-						Evento evento = new Evento(rst.getString("nome"), rst.getString("descrizione"), z, "" + rst.getString("tipo"), rst.getDate("dataInizio"), rst.getDate("dataFine"), e);
-				        eventi.add(evento);
-					                 }
-				 }  catch (SQLException e) {
-					 System.out.println(" errore newsletter");
-			    	   e.printStackTrace();
-				                           }
-  	                             };
-
-/* si prende ArrayList eventi e si filtra in base all'utente zona comune e provincia*/		
-  	                             
-for( int i = 0; i < eventi.size(); i++) {
+	public static NewsLetter news(UtenteRegistrato u) {
+			
+		 ArrayList<Evento> eventi = new ArrayList<Evento>();
+		 LocalDate dataUltimoEmail = u.getUltimoEmail();
+	     LocalDate dataOggi = LocalDate.now();          
 	
-// filtra tipo in base all'utente	*/
-  	    	
-	    if (!u.getTipo().equals("")) {	
-			if(!eventi.get(i).getTipo().equals(u.getTipo())) {
-				eventi.remove(i);
-				i--;
+	/* si controlla se la data dell'utlimo email con la data attuale sia superiore alla cadenza indicata dall'utente*/ 
+	     
+	     if(ChronoUnit.DAYS.between(dataUltimoEmail , dataOggi) >  u.getCadenza()) {
+	    	 
+	/* Estrapolare i dati degli evento che ci servono dal database facendo join tra evento, zona e ente
+	   e selezionare solo quelli dopo la data odierna */	
+				try {
+	
+						Connection con = connessione();
+						Statement st = con.createStatement();
+						String query = "select * from mercurydb.evento join mercurydb.zona on evento.zonaFK=idZona join mercurydb.ente on evento.enteFK=ente.idEnte "
+								     + "where (dataInizio > CAST( curdate() AS DATE))";
+						ResultSet rst = st.executeQuery(query);
+	
+						while(rst.next()) {
+							Zona z = new Zona(""+rst.getString("regione"), ""+rst.getString("provincia"), ""+rst.getString("comune"));
+							Ente e = new Ente("privato", "privato", rst.getString("nomeEnte"),"privato", "privato");
+							Evento evento = new Evento(rst.getString("nome"), rst.getString("descrizione"), z, "" + rst.getString("tipo"), rst.getDate("dataInizio"), rst.getDate("dataFine"), e);
+					        eventi.add(evento);
+						                 }
+					 }  catch (SQLException e) {
+						 System.out.println(" errore newsletter");
+				    	   e.printStackTrace();
+					                           }
+	  	                             };
+	
+	/* si prende ArrayList eventi e si filtra in base all'utente zona comune e provincia*/		
+	  	                             
+	for( int i = 0; i < eventi.size(); i++) {
+		
+	// filtra tipo in base all'utente	*/
+	  	    	
+		    if (!u.getTipo().equals("")) {	
+				if(!eventi.get(i).getTipo().equals(u.getTipo())) {
+					eventi.remove(i);
+					i--;
+				}
 			}
-		}
-} 	
+	} 	
 // filtra zona in base all'utente		
 
 for( int k = 0; k < eventi.size(); k++) {	
