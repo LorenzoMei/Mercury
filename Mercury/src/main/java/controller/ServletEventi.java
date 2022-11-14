@@ -14,6 +14,7 @@ import model.Zona;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -55,8 +56,8 @@ public class ServletEventi extends HttpServlet {
 				Zona zona = new Zona(regione, provincia, comune);
 				
 				String tipo = (String) request.getParameter("tipo");
-				Date dataInizio = (Date) request.getAttribute("dataInizio");
-				Date dataFine = (Date) request.getAttribute("dataFine");
+				LocalDate dataInizio = (LocalDate) request.getAttribute("dataInizio");
+				LocalDate dataFine = (LocalDate) request.getAttribute("dataFine");
 				
 				String nomeEnte = (String) request.getParameter("nomeEnte");
 				String email = (String) request.getParameter("email");
