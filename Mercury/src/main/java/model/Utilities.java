@@ -19,7 +19,7 @@ public class Utilities {
 		try {
 	    	Class.forName("com.mysql.cj.jdbc.Driver");
 	    	String url ="jdbc:mysql://127.0.0.1/mercurydb";
-	    	con = DriverManager.getConnection(url, "root", "admin");
+	    	con = DriverManager.getConnection(url, "root", "abcdefg");
 		}
 	    catch(ClassNotFoundException e) {
 	    	System.out.println("errore");
@@ -88,32 +88,34 @@ public class Utilities {
 	    	   }  
 	}
 
-	
 	public static List<Evento> listaEventi(){
 		List<Evento> listaEventi = null;
 		try {
+
 			Statement st = con.createStatement();
-			ResultSet rst = st.executeQuery("SELECT * FROM evento join zona on"
-					+ " zona.idZona = evento.zonaFk join ente on ente.idEnte = evento.enteFk join utente on utente.idUtente = ente.utenteFk");
+			ResultSet rst = st.executeQuery("SELECT * FROM evento join zona on zona.idZona = evento.zonaFk join ente on ente.idEnte "
+					+ "= evento.enteFk join utente on ente.utenteFk=utente.idUtente");
 			
 			listaEventi = new ArrayList<Evento>();
 			
 			while(rst.next()) {
 				String nome = rst.getString("nome");
 				String descrizione = rst.getString("descrizione");
-				String tipo = rst.getString("tipo");				
-				Date dataInizio = rst.getDate("dataInizio");
-				Date dataFine = rst.getDate("dataFine");
+				String tipo = rst.getString("tipo");		
 				
-				String regione = rst.getString("regione");
-				String provincia = rst.getString("provincia");
-				String comune = rst.getString("comune");
+				LocalDate dataInizio = LocalDate.parse(rst.getString("dataInizio"));
+				LocalDate dataFine = LocalDate.parse(rst.getString("dataFine"));
+				
+				int regione = rst.getInt("regionefk");
+				int provincia = rst.getInt("provinciafk");
+				int comune = rst.getInt("comunefk");
 				Zona zona = new Zona(regione, provincia, comune);
 				
 				String email = rst.getString("email");
 				String nomeEnte = rst.getString("nomeEnte");
 				
 				Ente ente = new Ente(email, nomeEnte);
+				
 				Evento evento = new Evento(nome, descrizione, zona, tipo, dataInizio, dataFine, ente);
 				
 				listaEventi.add(evento);
@@ -131,21 +133,22 @@ public class Utilities {
 			Statement st = con.createStatement();
 			int idZona = -1;
 			
-			String regione = utenteRegistrato.getZona().getRegione();
-			String provincia = utenteRegistrato.getZona().getProvincia();
-			String comune = utenteRegistrato.getZona().getComune();
-			
-			ResultSet rst = st.executeQuery("SELECT idZona FROM zona WHERE regione = '" + regione + "' AND "
-					+ "provincia = '" + provincia + "' AND " + "comune = '" + comune + "'");
+			int regione = utenteRegistrato.getZona().getRegione();
+			int provincia = utenteRegistrato.getZona().getProvincia();
+			int comune = utenteRegistrato.getZona().getComune();
+			LocalDate day = utenteRegistrato.getUltimoEmail();
+			ResultSet rst = st.executeQuery("SELECT idZona FROM zona WHERE regionefk =" + regione + " AND "
+					+ "provinciafk =" + provincia + " AND comunefk=" + comune );
 			
 			
 			if(rst.next()) {
 				idZona = rst.getInt("idZona");
 			}
-			
-			int result = st.executeUpdate("INSERT INTO utenteregistrato (email, tipo, cadenza, zonaFk) VALUES ('" + utenteRegistrato.getEmail() + "', '" 
+					
+			int result = st.executeUpdate("INSERT INTO utenteregistrato (email, tipo, cadenza, zonaFk, data) VALUES ('" + utenteRegistrato.getEmail() + "', '" 
 					+ utenteRegistrato.getTipo() + "', '" + utenteRegistrato.getCadenza() + "', " 
-					+ Integer.toString(idZona) + ")" );
+					+ idZona + ", '"+ day + "')" );
+			
 			if(result != 1) {
 				System.out.println("Iscrizione newsletters non andata a buon fine");
 			}
@@ -154,7 +157,7 @@ public class Utilities {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void bannaEnte(String email) {
 		try {
 			Statement st = con.createStatement();
@@ -170,8 +173,7 @@ public class Utilities {
 			else {
 				System.out.println("Ente non esistente");
 			}
-			
-			
+						
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -185,15 +187,20 @@ public class Utilities {
 	    
 	    try {
 	    	Statement st = con.createStatement();
-	    	String query = "Select * from utente join ente on ente.utenteFk = utente.idUtente "
-	    			+ "where email='" + email + "' AND password='" + password + "'";
+	    	String query = "Select * from utente where email='" + email + "' AND password='" + password + "'";
 	    	ResultSet rst = st.executeQuery(query);
 	    	
 	    	while(rst.next()) {
 	    		if(rst.getString("ruolo").equals("ente")) {
 	    			Ente ente = new Ente(rst.getString("email"), rst.getString("password"),
-	    					    rst.getString("nomeEnte"), rst.getString("nome"), rst.getString("cognome"));
+	    					    rst.getString("idUtente"), rst.getString("nome"), rst.getString("cognome"));
 	    			
+	    			query = "Select nomeEnte from ente where utenteFK='" + ente.getNomeEnte()+"'";
+	    			ResultSet rst2 = st.executeQuery(query);
+	    			
+	    			while(rst2.next()) {
+	    				ente.setNomeEnte(rst.getString("nomeEnte"));
+	    			}
 	    			utente = ente;
 	    			
 	    		}
@@ -217,54 +224,6 @@ public class Utilities {
     	
     }
 	
-	
-	
-	public static void aggiungiEvento(Evento evento) {
-			
-			try {
-				Statement st = con.createStatement();
-				int idZona = 0;
-				int idEnte = 0;
-				
-				
-			//ESTRAPOLA idZona	
-				try {
-		
-				ResultSet rst = st.executeQuery("SELECT idZona from mercurydb.zona WHERE regione='"+ evento.getZona().getRegione()+"'"+ 
-								"AND provincia='"+ evento.getZona().getProvincia() +"'"+ "AND comune='"+evento.getZona().getComune()+"'");
-				
-				while(rst.next()) { idZona = rst.getInt("idZona");}
-
-				
-				
-			} catch (SQLException e) {
-				System.out.println("Errore estrapolazione idzona");
-				e.printStackTrace();
-			}
-				//ESTRAPOLA idEnte
-				try {
-		 	        ResultSet rst = st.executeQuery("SELECT idEnte from ente where nomeEnte ='" + evento.getEnte().getEmail() + "'");
-		 	        
-		 	       while(rst.next()) { idEnte = rst.getInt("idEnte");}
-					
-				} catch (SQLException e) {
-					 System.out.println(" errore estrapolazione id utente");
-			    	   e.printStackTrace();
-				}
-				
-				
-				//inserimento evento nella tabella  
-				String queryIns = "INSERT into evento (nome, descrizione, tipo, dataInizio, dataFine, zonaFK, enteFK) " + "VALUES ('" + evento.getNome() + "','" + 
-								   evento.getDescrizione() + "','" + evento.getTipo() + "','"+ evento.getDataInizio() + "','" +
-								   evento.getDataFine() + "','"  + idZona + "','" + idEnte + "');";
-				st.executeUpdate(queryIns);
-				
-			} catch (SQLException e) {
-				System.out.println("Errore aggiungi evento");
-				e.printStackTrace();
-			}
-		}
-
 	public static List<Ente> listaEnti(){
 		List<Ente> listaEnti = null;
 		try {
@@ -289,8 +248,54 @@ public class Utilities {
 		return listaEnti;
 	}
 	
-	public static NewsLetter news(UtenteRegistrato u) {
+	public static void aggiungiEvento(Evento evento) {
+		
+		try {
+			Statement st = con.createStatement();
+			int idZona = 0;
+			int idEnte = 0;
 			
+			
+		//ESTRAPOLA idZona	
+			try {
+	       ResultSet rst = st.executeQuery("SELECT idZona FROM zona WHERE regionefk =" + evento.getZona().getRegione() + " AND "
+						+ "provinciafk =" + evento.getZona().getProvincia() + " AND comunefk=" + evento.getZona().getComune() );	
+			
+			while(rst.next()) { idZona = rst.getInt("idZona");}
+
+			
+			
+		} catch (SQLException e) {
+			System.out.println("Errore estrapolazione idzona");
+			e.printStackTrace();
+		}
+			//ESTRAPOLA idEnte
+			try {
+	 	        ResultSet rst = st.executeQuery("SELECT idEnte from ente where nomeEnte ='" + evento.getEnte().getNomeEnte()+ "'");
+	 	        
+	 	       while(rst.next()) { idEnte = rst.getInt("idEnte");}
+				
+			} catch (SQLException e) {
+				 System.out.println(" errore estrapolazione id utente");
+		    	   e.printStackTrace();
+			}
+			
+System.out.println(idEnte);
+
+			//inserimento evento nella tabella  
+			String queryIns = "INSERT into evento (nome, descrizione, tipo, dataInizio, dataFine, zonaFK, enteFK) " + 
+			                   "VALUES ('" + evento.getNome() + "','" + evento.getDescrizione() + "','" + evento.getTipo() 
+			                   + "','"+ evento.getDataInizio() + "','" + evento.getDataFine() + "',3 , 1);";
+			st.executeUpdate(queryIns);
+			
+		} catch (SQLException e) {
+			System.out.println("Errore aggiungi evento");
+			e.printStackTrace();
+		}
+	}
+
+	public static NewsLetter news(UtenteRegistrato u) {
+		
 		 ArrayList<Evento> eventi = new ArrayList<Evento>();
 		 LocalDate dataUltimoEmail = u.getUltimoEmail();
 	     LocalDate dataOggi = LocalDate.now();          
@@ -309,9 +314,9 @@ public class Utilities {
 						ResultSet rst = st.executeQuery(query);
 	
 						while(rst.next()) {
-							Zona z = new Zona(""+rst.getString("regione"), ""+rst.getString("provincia"), ""+rst.getString("comune"));
+							Zona z = new Zona(rst.getInt("regionefk"), rst.getInt("provinciafk"),rst.getInt("comunefk"));
 							Ente e = new Ente("privato", "privato", rst.getString("nomeEnte"),"privato", "privato");
-							Evento evento = new Evento(rst.getString("nome"), rst.getString("descrizione"), z, "" + rst.getString("tipo"), rst.getDate("dataInizio"), rst.getDate("dataFine"), e);
+							Evento evento = new Evento(rst.getString("nome"), rst.getString("descrizione"), z, "" + rst.getString("tipo"), LocalDate.parse( rst.getString("dataInizio")), LocalDate.parse( rst.getString("dataFine")), e);
 					        eventi.add(evento);
 						                 }
 					 }  catch (SQLException e) {
@@ -333,28 +338,28 @@ public class Utilities {
 				}
 			}
 	} 	
-// filtra zona in base all'utente		
+//filtra zona in base all'utente		
 
 for( int k = 0; k < eventi.size(); k++) {	
 	
-		if(!u.getZona().getComune().equals("")) {
-			if(!eventi.get(k).getZona().getComune().equals(u.getZona().getComune())) {
+		if(u.getZona().getComune() != 0) {
+			if(eventi.get(k).getZona().getComune() != u.getZona().getComune()) {
 				eventi.remove(k);
 				k--;
 			} 
-		} else if(!u.getZona().getProvincia().equals("")) {
-			if(!eventi.get(k).getZona().getProvincia().equals(u.getZona().getProvincia())) {
+		} else if(u.getZona().getProvincia() != 0 ) {
+			if(eventi.get(k).getZona().getProvincia() != u.getZona().getProvincia()) {
 				eventi.remove(k);
 				k--;
 		    } 
-		} else if(!u.getZona().getRegione().equals("")) {
-			if(!eventi.get(k).getZona().getRegione().equals(u.getZona().getRegione())) {
+		} else if(u.getZona().getRegione() != 0) {
+			if(eventi.get(k).getZona().getRegione() != u.getZona().getRegione()) {
 				eventi.remove(k);
 				k--;
 		    } 
 		} 
 	
- } 
+} 
 			
 			NewsLetter lettera = new NewsLetter(eventi,u);
 			return lettera;	
