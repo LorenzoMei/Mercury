@@ -1,0 +1,27 @@
+@charset "ISO-8859-1";
+
+.aggiunta {
+  background: #00ff40;
+  padding: 35px;
+  padding-top: 15px;
+  border-style: solid;
+  border-color: #000000;
+}
+
+.aggiunta h1 {
+	text-align:center;
+}
+.aggiunta h3 {
+	text-align:center;
+}
+
+#absoluteCenteredDiv{
+     position: absolute;
+     top:0;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     margin: auto;
+     width:500px;
+     height:600px;
+}
