@@ -8,11 +8,6 @@ public class Ente {
 	private String nomeResponsabile;
 	private String cognomeResponsabile;
 	
-	public Ente(String nomeEnte, String email) {
-		this.nomeEnte = nomeEnte;
-		this.email = email;
-	}
-	
 	public Ente(String email,String password, String nomeEnte, String nomeResponsabile, String cognomeResponsabile ) {
 		this.password = password;
 		this.nomeEnte = nomeEnte;
@@ -21,6 +16,10 @@ public class Ente {
 		this.cognomeResponsabile =cognomeResponsabile;
 	}
 	
+	public Ente(String email, String nomeEnte ) {
+		this.nomeEnte = nomeEnte;
+		this.email = email;
+	}
 	
 
 	public String getEmail() {
@@ -50,9 +49,12 @@ public class Ente {
 	}
 
 
+
 	public String getNomeResponsabile() {
 		return nomeResponsabile;
 	}
+
+
 
 	public void setNomeResponsabile(String nomeResponsabile) {
 		this.nomeResponsabile = nomeResponsabile;
@@ -70,5 +72,9 @@ public class Ente {
 		this.cognomeResponsabile = cognomeResponsabile;
 	}
 	
+	
+	
+	
 
 }
+
