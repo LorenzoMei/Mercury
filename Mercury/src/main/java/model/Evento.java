@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Evento {
@@ -7,17 +8,17 @@ private String nome;
 private String descrizione;
 private Zona zona;
 private String tipo;
-private Date dataInizio;
-private Date dataFine;
+private LocalDate dataInizio;
+private LocalDate dataFine;
 private Ente ente;
 
-public Evento(String nome, String descrizione, Zona zona, String tipo, Date dataInizio, Date dataFine, Ente ente) {
+public Evento(String nome, String descrizione, Zona zona, String tipo, LocalDate dataInizio2, LocalDate dataFine2, Ente ente) {
 	this.nome = nome;
 	this.descrizione = descrizione;
 	this.zona = zona;
 	this.tipo = tipo;
-	this.dataInizio = dataInizio;
-	this.dataFine = dataFine;
+	this.dataInizio = dataInizio2;
+	this.dataFine = dataFine2;
 	this.ente = ente;
 }
 
@@ -53,19 +54,19 @@ public void setTipo(String tipo) {
 	this.tipo = tipo;
 }
 
-public Date getDataInizio() {
+public LocalDate getDataInizio() {
 	return dataInizio;
 }
 
-public void setDataInizio(Date dataInizio) {
-	this.dataInizio = dataInizio;
+public void setDataInizio(LocalDate dataInizio) {
+	this.dataInizio =  dataInizio;
 }
 
-public Date getDataFine() {
-	return dataFine;
+public LocalDate getDataFine() {
+	return (LocalDate) dataFine;
 }
 
-public void setDataFine(Date dataFine) {
+public void setDataFine(LocalDate dataFine) {
 	this.dataFine = dataFine;
 }
 
