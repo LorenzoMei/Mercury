@@ -1,31 +1,31 @@
 package model;
 
 public class Zona {
-	private String regione;
-	private String provincia;
-	private String comune;
+	private int regione;
+	private int provincia;
+	private int comune;
 	
-	public Zona(String regione, String provincia, String comune) {
+	public Zona(int regione, int provincia, int comune) {
 		this.regione = regione;
 		this.provincia = provincia;
 		this.comune = comune;
 	}
-	public String getRegione() {
+	public int getRegione() {
 		return regione;
 	}
-	public void setRegione(String regione) {
+	public void setRegione(int regione) {
 		this.regione = regione;
 	}
-	public String getProvincia() {
+	public int getProvincia() {
 		return provincia;
 	}
-	public void setProvincia(String provincia) {
+	public void setProvincia(int provincia) {
 		this.provincia = provincia;
 	}
-	public String getComune() {
+	public int getComune() {
 		return comune;
 	}
-	public void setComune(String comune) {
+	public void setComune(int comune) {
 		this.comune = comune;
 	}
 	
