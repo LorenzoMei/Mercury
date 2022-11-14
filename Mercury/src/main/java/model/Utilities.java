@@ -304,11 +304,36 @@ System.out.println(idEnte);
 	/* si controlla se la data dell'utlimo email con la data attuale sia superiore alla cadenza indicata dall'utente*/ 
 	     
 	     if(ChronoUnit.DAYS.between(dataUltimoEmail , dataOggi) >  u.getCadenza()) {
+
+	     /* Estrapolare i dati degli evento che ci servono dal database facendo join tra evento, zona e ente
+	  	   e selezionare solo quelli dopo la data odierna */	
 	    	 
-	/* Estrapolare i dati degli evento che ci servono dal database facendo join tra evento, zona e ente
-	   e selezionare solo quelli dopo la data odierna */	
-				try {
+	    	 if(u.getTipo().equals("") && u.getZona().getComune()==0 && u.getZona().getProvincia()==0 && u.getZona().getRegione()==0) {
+	    		
+	    		 try {
+	    				
+						Statement st = con.createStatement();
+						String query = "select * from mercurydb.evento join mercurydb.zona on evento.zonaFK=idZona join mercurydb.ente on evento.enteFK=ente.idEnte "
+								     + "where (dataInizio > CAST( curdate() AS DATE) and dataInizio < CAST( curdate()+7 AS DATE))";
+						ResultSet rst = st.executeQuery(query);
 	
+						while(rst.next()) {
+							Zona z = new Zona(rst.getInt("regionefk"), rst.getInt("provinciafk"),rst.getInt("comunefk"));
+							Ente e = new Ente("privato", "privato", rst.getString("nomeEnte"),"privato", "privato");
+							Evento evento = new Evento(rst.getString("nome"), rst.getString("descrizione"), z, "" + rst.getString("tipo"), LocalDate.parse( rst.getString("dataInizio")), LocalDate.parse( rst.getString("dataFine")), e);
+					        eventi.add(evento);
+						                 }
+					 }  catch (SQLException e) {
+						 System.out.println(" errore newsletter");
+				    	   e.printStackTrace();
+					                           }
+	  	                             
+	    		 
+	    	 } else {
+	    		
+
+				try {
+				
 						Statement st = con.createStatement();
 						String query = "select * from mercurydb.evento join mercurydb.zona on evento.zonaFK=idZona join mercurydb.ente on evento.enteFK=ente.idEnte "
 								     + "where (dataInizio > CAST( curdate() AS DATE))";
@@ -360,9 +385,10 @@ for( int k = 0; k < eventi.size(); k++) {
 		    } 
 		} 
 	
-} 
+} }
 			
 			NewsLetter lettera = new NewsLetter(eventi,u);
 			return lettera;	
 }
 }
+
