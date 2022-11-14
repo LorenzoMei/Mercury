@@ -1,0 +1,26 @@
+@charset "ISO-8859-1";
+
+.evento {
+  background: orange;
+  padding: 35px;
+  padding-top: 15px;
+  border-style: solid;
+  border-color: #000000;
+}
+
+.evento h5{
+  position: absolute;
+  right:5%;
+  bottom:0;
+}
+
+#absoluteCenteredDiv{
+     position: absolute;
+     top:0;
+     bottom: 0;
+     left: 0;
+     right: 0;
+     margin: auto;
+     width:500px;
+     height:300px;
+}
