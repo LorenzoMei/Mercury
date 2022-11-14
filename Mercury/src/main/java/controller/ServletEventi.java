@@ -46,26 +46,31 @@ public class ServletEventi extends HttpServlet {
 				
 				break;
 			case 2: 
-				String nome = (String) request.getAttribute("nome");
-				String descrizione = (String) request.getAttribute("descrizione");
+				String nome = (String) request.getParameter("nome");
+				String descrizione = (String) request.getParameter("descrizione");
 				
-				String regione = (String) request.getAttribute("regione");
-				String provincia = (String) request.getAttribute("provincia");
-				String comune = (String) request.getAttribute("comune");
+				String regione = (String) request.getParameter("regione");
+				String provincia = (String) request.getParameter("provincia");
+				String comune = (String) request.getParameter("comune");
 				Zona zona = new Zona(regione, provincia, comune);
 				
-				String tipo = (String) request.getAttribute("tipo");
+				String tipo = (String) request.getParameter("tipo");
 				Date dataInizio = (Date) request.getAttribute("dataInizio");
 				Date dataFine = (Date) request.getAttribute("dataFine");
 				
-				String nomeEnte = (String) request.getAttribute("nomeEnte");
-				String email = (String) request.getAttribute("email");
+				String nomeEnte = (String) request.getParameter("nomeEnte");
+				String email = (String) request.getParameter("email");
 				
 				Ente ente = new Ente(nomeEnte, email);
 				
 				Evento evento = new Evento(nome, descrizione, zona, tipo, dataInizio, dataFine, ente);
 				Utilities.aggiungiEvento(evento);
 				
+				break;
+			case 3:
+				Evento e = (Evento) request.getAttribute("evento");
+				request.setAttribute("evento", e);
+				request.getRequestDispatcher("evento.jsp").forward(request, response);
 				break;
 		}
 	}
