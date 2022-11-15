@@ -59,14 +59,36 @@ body {
 .sidebar label:hover {
   color: #f1f1f1;
 }
- .date label {
+ 
+.regioneDiv{
+  display: none;
+}
+.regioneDiv label {
+  padding-left: 40px;
+  width: 250px;
+  font-size: 14px;
+}
+
+.tipoDiv{
+  display: none;
+}
+.tipoDiv label {
+  padding-left: 40px;
+  width: 250px;
+  font-size: 14px;
+}
+ 
+.dataDiv{
+  display: none;
+}
+.dataDiv label {
   padding-left: 40px;
   width: 250px;
   font-size: 14px;
 }
 
 .buttonFiltro{
-  padding-left:45%;
+  padding-left:30%;
 }
 
 .content { 
@@ -108,7 +130,5 @@ body {
   color: white;
   border-style: solid;
   border-color: #000000;
-  position: -webkit-sticky;
-  position: sticky;
   bottom: 0;
 }
