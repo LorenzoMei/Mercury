@@ -42,5 +42,11 @@
 	  </div>
 	</form>
 </div>
+<br>
+<footer>
+<form action="http://localhost:8080/Mercury">
+<input type="submit" value="HOME">
+</form>
+</footer>
 </body>
 </html>
