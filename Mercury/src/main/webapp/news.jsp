@@ -104,7 +104,7 @@
                         let obj = $.parseJSON(data);
                         var i=0;
                         $.each(obj, function (key,value) {
-                            $('#regione').append('<option value="' + ++i + '">' + value + '</option>')
+                            $('#regione').append('<option value="' + value + '">' + value + '</option>')
                         });
                         $('select').formSelect();
                     },
@@ -121,7 +121,7 @@
                     $('#comune').find('option').remove();
                     $('#comune').append('<option>Seleziona Comune</option>');
 
-                    let cid = $('#regione').val();
+                    let cid = $('#regione option:selected').text();
                     let data = {
                         operation: "provincia",
                         id: cid
@@ -136,7 +136,7 @@
                             let obj = $.parseJSON(data);
                             var i=0;
                             $.each(obj, function (key, value) {
-                                $('#provincia').append('<option value="' + ++i + '">' + value + '</option>')
+                                $('#provincia').append('<option value="' + value + '">' + value + '</option>')
                             });
                             $('select').formSelect();
                         },
@@ -166,7 +166,7 @@
                             let obj = $.parseJSON(data);
                             var i=0;
                             $.each(obj, function (key, value) {
-                                $('#comune').append('<option value="' + ++i + '">' + value + '</option>')
+                                $('#comune').append('<option value="' + value + '">' + value + '</option>')
                             });
                             $('select').formSelect();
                         },
