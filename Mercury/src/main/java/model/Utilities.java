@@ -394,14 +394,14 @@ System.out.println(idEnte);
 			return lettera;	
 	}
 	
-	public static ArrayList<String> getComune(String provincia) {
+	public static ArrayList<String> getComune(int provincia) {
 		
 		ArrayList<String> listaComuni = null;
 		
 		try {
 			Statement st = con.createStatement();
 			ResultSet rst = st.executeQuery("SELECT * FROM comuni join provincia on provincia.idProvincia = comuni.provinciafk"
-					+ " WHERE nomeProvincia = " + provincia);
+					+ " WHERE idProvincia = " + provincia);
 			
 			listaComuni = new ArrayList<String>();
 			
@@ -437,12 +437,12 @@ System.out.println(idEnte);
 		return regioneList;		
 	}
 	
-	public static ArrayList<String> getProvincia(String regione) {
+	public static ArrayList<String> getProvincia(int regione) {
 		ArrayList<String> provinciaLista = new ArrayList<String>();
 		try {
 			Statement st = con.createStatement();
 			ResultSet rst = st.executeQuery("SELECT * from provincia join regioni on provincia.regionefk = regioni.idRegioni WHERE "
-					+ "nomeRegione = "+ regione);
+					+ "idRegioni = "+ regione);
 						
 			while(rst.next()) {
 				provinciaLista.add(rst.getString("nomeProvincia"));}
