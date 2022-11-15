@@ -62,13 +62,17 @@ public class ServletGestione extends HttpServlet {
 				request.getRequestDispatcher("homepage.jsp").forward(request, response);
 				break;
 			case 2:
-				System.out.println("SONO QUI");
 				String emailNews = (String) request.getParameter("emailNews");
 				
-				int regione = Integer.parseInt(request.getParameter("regione"));
-				int provincia = Integer.parseInt(request.getParameter("provincia"));
-				int comune = Integer.parseInt(request.getParameter("comune"));
-				Zona zona = new Zona(regione, provincia, comune);
+				String regione = (String)(request.getParameter("regione"));
+				String provincia = (String)(request.getParameter("provincia"));
+				String comune = (String)(request.getParameter("comune"));
+				
+				int idRegione = Utilities.getIdRegione(regione);
+				int idProvincia = Utilities.getIdProvinciaFromRegione(idRegione, provincia);
+				int idComune = Utilities.getIdComuneFromProvincia(idProvincia, comune);
+				
+				Zona zona = new Zona(idRegione, idProvincia, idComune);
 				
 				String tipo = (String) request.getParameter("tipo");
 				String cadenza = (String) request.getParameter("cadenza");

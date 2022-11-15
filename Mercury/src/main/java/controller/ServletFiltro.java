@@ -39,7 +39,7 @@ public class ServletFiltro extends HttpServlet {
             }
 
             if (op.equals("provincia")) {
-                int id = Integer.parseInt(request.getParameter("id"));
+                String id = request.getParameter("id");
                 List<String> slist = Utilities.getProvincia(id);
                 Gson json = new Gson();
                 String countryList = json.toJson(slist);
