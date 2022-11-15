@@ -1,7 +1,9 @@
+<%@page import="model.Utilities"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ page import="model.Utilities" %>
-
+    pageEncoding="ISO-8859-1"
+    import ="java.util.List"
+    import ="model.Evento"
+    %>
  
 <!DOCTYPE html>
 <html>
@@ -9,67 +11,33 @@
 <title>Page Title</title>
 
 <link rel="stylesheet" href="css/styleHome.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="scripts.js"></script>
 
 </head>
-
-<%
-	Utilities.connessione();
-%>
 <body>
-
 
 <div class="header">
   <h1>MERCURY</h1>
-  <h4>Portale eventi su tutto il territori nazionale</h>  
+  <h4>Portale eventi su tutto il territori nazionale</h4>  
 </div>
 
 
 <div class="main">
 
-    <div class="sidebar">
+  <div class="sidebar">
 
-  <form method="get" action="######">
+  <form method="get" action="index.jsp">
   <label for="filtroZona"> 
-  	<input type="checkbox" id="checkFiltroZona" name="checkFiltroZona"> Filtra per zona:
-  </label>
-  <div class="date">
-	<label for="regione">Regione:
-	<select name="regione">
-	  <option value="A">A</option>
-	  <option value="B">B</option>
-	  <option value="-">Null</option>
+  	<input type="checkbox" id="checkFiltroZona" name="checkFiltroZona" value=true> Filtra per zona:
+	<select name="FiltroZona" id="FiltroZona">
+                <option value="${category}">
+                    ${category}
+                </option>
 	</select>
-	</label>
-	<label for="provincia">Provincia:
-	<select name="provincia">
-	  <option value="A">A</option>
-	  <option value="B">B</option>
-	  <option value="-">Null</option>
-	</select>
-	</label>
-	<label for="comune">Comune:
-	<select name="comune">
-	  <option value="A">A</option>
-	  <option value="B">B</option>
-	  <option value="-">Null</option>
-	</select>
-	</label>
-   </div>
-  <br>
-  <label for="filtroTipo"> <input type="checkbox" id="filtroTipo" name="filtroTipo" value=true> Filtra per tipo d'evento</label>
-  <div class="date">
-	<label for="tipologia">Tipologia:
-	<select name="tipologia">
-	  <option value="A">A</option>
-	  <option value="B">B</option>
-	  <option value="-">Null</option>
-	</select>
-	</label>
-   </div>
-	<br>
-  <label for="filtroData"> <input type="checkbox" id="filtroData" name="filtroData" value=true> Filtra per data</label>
+  </label><br>
+  
+  <label for="filtroData"> <input type="checkbox" id="filtroTipo" name="filtroTipo" value=true> Filtra per tipologia d'evento</label><br>
+  <label for="filtroData"> <input type="checkbox" id="filtroData" name="filtroData" value=true> Filtra per data</label><br>
   <div class="date">
   	<label for="dataInizio"> Data inizio:
 		<input type=date id=today name="dataInizio" min="2015-01-01" max="2030-12-31">
@@ -84,15 +52,51 @@
 		document.getElementById('today2').value = new Date().toISOString().substring(0, 10);
 	</script>
   </div>
-  <br>
-  <div class="buttonFiltro">
-	  <input type="submit" value="Esegui filtro">
-  </div>
+  
+  <label for="filtroFinal">
+  <input type="submit" value="Esegui filtro">
+  </label>
   </form>
   </div>
 
-  <div class="content" id=cloneEvent>	        
+  <div class="content">
+ 	
+ <%
+
+  	List<Evento> list = (List<Evento>) request.getAttribute("listaEventi");
+		  for(int i=0;i<list.size();i++){		  
+%>
+			   <div class="event">
+			   <a href="evento.jsp?index=<%out.println(i); %>" <%
+			   	request.getSession().setAttribute("e", list);
+			   %>>
+			   </a>
+			   
+			   <h2>
+			   <%
+			   	out.println(list.get(i).getNome());
+				  %>
+			   </h2>
+			   <h4>
+			   <%
+			   out.println(list.get(i).getTipo());
+			   %></h4>
+			   
+				  
+				  </div>
+				  <br>
+				  <%
+		  }
+		  
+		   
+			   %>
+			 
+		 
+ 
+  
+        
   </div>
+  
   
   
 </div>
