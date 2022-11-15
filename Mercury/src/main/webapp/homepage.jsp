@@ -28,20 +28,48 @@
 
 <div class="main">
 
-  <div class="sidebar">
+    <div class="sidebar">
 
-  <form method="get" action="index.jsp">
+  <form method="get" action="######">
   <label for="filtroZona"> 
-  	<input type="checkbox" id="checkFiltroZona" name="checkFiltroZona" value=true> Filtra per zona:
-	<select name="FiltroZona" id="FiltroZona">
-                <option value="${category}">
-                    ${category}
-                </option>
+  	<input type="checkbox" id="checkFiltroZona" name="checkFiltroZona"> Filtra per zona:
+  </label>
+  <div class="date">
+	<label for="regione">Regione:
+	<select name="regione">
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="-">Null</option>
 	</select>
-  </label><br>
-  
-  <label for="filtroData"> <input type="checkbox" id="filtroTipo" name="filtroTipo" value=true> Filtra per tipologia d'evento</label><br>
-  <label for="filtroData"> <input type="checkbox" id="filtroData" name="filtroData" value=true> Filtra per data</label><br>
+	</label>
+	<label for="provincia">Provincia:
+	<select name="provincia">
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="-">Null</option>
+	</select>
+	</label>
+	<label for="comune">Comune:
+	<select name="comune">
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="-">Null</option>
+	</select>
+	</label>
+   </div>
+  <br>
+  <label for="filtroTipo"> <input type="checkbox" id="filtroTipo" name="filtroTipo" value=true> Filtra per tipo d'evento</label>
+  <div class="date">
+	<label for="tipologia">Tipologia:
+	<select name="tipologia">
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	  <option value="-">Null</option>
+	</select>
+	</label>
+   </div>
+	<br>
+  <label for="filtroData"> <input type="checkbox" id="filtroData" name="filtroData" value=true> Filtra per data</label>
   <div class="date">
   	<label for="dataInizio"> Data inizio:
 		<input type=date id=today name="dataInizio" min="2015-01-01" max="2030-12-31">
@@ -56,10 +84,10 @@
 		document.getElementById('today2').value = new Date().toISOString().substring(0, 10);
 	</script>
   </div>
-  
-  <label for="filtroFinal">
-  <input type="submit" value="Esegui filtro">
-  </label>
+  <br>
+  <div class="buttonFiltro">
+	  <input type="submit" value="Esegui filtro">
+  </div>
   </form>
   </div>
 
