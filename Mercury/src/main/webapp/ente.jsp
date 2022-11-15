@@ -35,16 +35,16 @@
 	</select>
 	</label>
 	<br><br>
-	<label for="regione">Provincia:
-	<select name="regione">
+	<label for="provincia">Provincia:
+	<select name="provincia">
 	  <option value="A">A</option>
 	  <option value="B">B</option>
 	  <option value="-">Null</option>
 	</select>
 	</label>
 	<br><br>
-	<label for="regione">Comune:
-	<select name="regione">
+	<label for="comune">Comune:
+	<select name="comune">
 	  <option value="A">A</option>
 	  <option value="B">B</option>
 	  <option value="-">Other</option>
