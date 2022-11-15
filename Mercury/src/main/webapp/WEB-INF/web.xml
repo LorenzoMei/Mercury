@@ -34,4 +34,14 @@
     <servlet-name>ServletGestione</servlet-name>
     <url-pattern>/ServletGestione</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletFiltro</display-name>
+    <servlet-name>ServletFiltro</servlet-name>
+    <servlet-class>controller.ServletFiltro</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletFiltro</servlet-name>
+    <url-pattern>/ServletFiltro</url-pattern>
+  </servlet-mapping>
 </web-app>
