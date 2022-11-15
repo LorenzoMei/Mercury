@@ -24,6 +24,7 @@ public class ServletFiltro extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+	
 		try (PrintWriter out = response.getWriter()) {
             
             String op = request.getParameter("operation");
@@ -46,8 +47,8 @@ public class ServletFiltro extends HttpServlet {
                 response.getWriter().write(countryList);
             }
 
-            if (op.equals("city")) {
-                int id = Integer.parseInt(request.getParameter("id"));
+            if (op.equals("comune")) {
+                String id = request.getParameter("id");
                 List<String> comuni = Utilities.getComune(id);
                 Gson json = new Gson();
                 String comune = json.toJson(comuni);

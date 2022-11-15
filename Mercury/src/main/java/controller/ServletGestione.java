@@ -62,10 +62,7 @@ public class ServletGestione extends HttpServlet {
 				request.getRequestDispatcher("homepage.jsp").forward(request, response);
 				break;
 			case 2:
-				
-				
-				break;
-			case 3:
+				System.out.println("SONO QUI");
 				String emailNews = (String) request.getParameter("emailNews");
 				
 				int regione = Integer.parseInt(request.getParameter("regione"));

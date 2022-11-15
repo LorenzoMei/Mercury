@@ -43,7 +43,7 @@ public class ServletFiltra extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+				
 		List<Evento> listaEventi = (List<Evento>) request.getAttribute("listaEventi");
 		List<Evento> listaEventiFiltrata = new ArrayList<Evento>();
 		

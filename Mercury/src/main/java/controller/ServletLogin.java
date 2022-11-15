@@ -43,7 +43,6 @@ public class ServletLogin extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Utilities.connessione();
 		PrintWriter out = response.getWriter();
 		
 		String email = request.getParameter("email");
@@ -57,6 +56,7 @@ public class ServletLogin extends HttpServlet {
 			request.getRequestDispatcher("admin.jsp").forward(request, response);
 		}
 		else if(utente instanceof Ente) {
+			request.setAttribute("ente", (Ente)utente);
 			request.getRequestDispatcher("ente.jsp").forward(request, response);
 		}
 		else {

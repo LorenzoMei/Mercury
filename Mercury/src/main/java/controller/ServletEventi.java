@@ -39,9 +39,12 @@ public class ServletEventi extends HttpServlet {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 		
-		int operation = 0;
+		int operazione = 0;
+		if(request.getParameter("operazione") != null) {
+			operazione = Integer.parseInt(request.getParameter("operazione"));
+		}
 		
-		switch(operation) {
+		switch(operazione) {
 			
 			case 2: 
 				String nome = (String) request.getParameter("nome");
