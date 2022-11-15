@@ -10,51 +10,45 @@
         <style type="text/css">
             
             .drop-down-list{
+            	background-color: #00ff40;
                 margin: 150px auto;
                 width: 50%;
                 padding: 30px;
+             
             }
-	    .drop-down-list h3 {
-		text-align:center;
-	    }
-	    .buttonAggiungi{
-		  margin: 0;
-		  position: absolute;
-		  left: 50%;
-		  bottom:2%;
-		  -ms-transform: translateX(-50%);
-		  transform: translateX(-50%);
-	    }
         </style>
 
 </head>
 <body> 
 
 <div class="aggiunta" id="absoluteCenteredDiv">
-    
-    
-	
             <div class="drop-down-list card">
-            <form method="get" action="">
+            <form method="get" action="ServletEventi?operazione=2">
+            
+            
 
-	<h1>FORM AGGIUNTA EVENTI</h1>
-	<h3>ENTE: XXXXXX</h3>
+	<h3>FORM AGGIUNTA EVENTI</h3>
 	<br><br><br>
 	<label for="nomeEvento"> Nome Evento:
 		<input type="text" id="nomeEvento" name="nomeEvento"><br>
 	</label>
 	<br>
 	<label for="tipoEvento">Tipologia Evento:
+	<% ArrayList<String> tipi = Utilities.getTipo(); %>
 	<select name="tipo">
-	  <option value="A">A</option>
-	  <option value="B">B</option>
-	  <option value="-">Null</option>
+	<%
+	 for(String s : tipi){
+		%>
+		<option value="<%out.print(s);%>"><% out.print(s); %></option>
+		<% 
+	 }
+	%>
 	</select>
 	</label>
 	<br><br>
                 
                 <div class="divider"></div>
-                <form>
+                
                     <div class="input-field">
                         <select id="regione">
                             <option>Seleziona Regione</option>
@@ -70,7 +64,7 @@
                             <option>Seleziona Comune</option>
                         </select>
                     </div>
-            </form>
+            
             
 	<br><br>
   	<label for="dataInizio"> Data inizio:
@@ -87,13 +81,11 @@
 	    </script>
 	</label>
 	<br><br>
-	<label for="nomeEvento"> Descrizione Evento:
-		  <textarea id="nomeEvento" name="nomeEvento" rows="4" cols="65"></textarea>
+	<label for="descrizioneEvento"> Descrizione Evento:
+		  <textarea id="descrizioneEvento" name="descrizioneEvento" rows="4" cols="65"></textarea>
 	</label>
 	<br><br>
-	<div class="buttonAggiungi">
-		<input type="submit" value="Aggiungi">
-	</div>
+	<input type="submit" value="Aggiungi">
 	
 	</form>
 	</div>
@@ -189,11 +181,5 @@
 
             });
         </script>
-	<br>
-<footer>
-<form action="http://localhost:8080/Mercury">
-<input type="submit" value="HOME">
-</form>
-</footer>
         </body>
 </html>
