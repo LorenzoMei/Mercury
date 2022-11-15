@@ -186,18 +186,22 @@ public class Utilities {
 	    
 	    try {
 	    	Statement st = con.createStatement();
-	    	String query = "Select * from utente join ente on ente.utenteFk = utente.idUtente"
-	    			+ " where email='" + email + "' AND password='" + password + "'";
+	    	String query = "Select * from utente where email='" + email + "' AND password='" + password + "'";
 	    	ResultSet rst = st.executeQuery(query);
 	    	
-	    	while(rst.next()) {
+	    	if(rst.next()) {
 	    		if(rst.getString("ruolo").equals("ente")) {
-	    			
-	    			System.out.println("SONO QUI");
-	    			
-	    			String nomeResponsabile = rst.getString("nome");
 	    			String cognomeResponsabile = rst.getString("cognome");
-	    			String nomeEnte = rst.getString("nomeEnte");
+	    			String nomeResponsabile = rst.getString("nome");
+	    			
+	    			String query2 = "Select nomeEnte from ente where utenteFk = " + Integer.toString(rst.getInt("idUtente"));
+	    			Statement st2 = con.createStatement();
+	    			ResultSet rst2 = st2.executeQuery(query2);
+	    			String nomeEnte = "";
+	    	
+	    			if(rst2.next()) {
+	    				nomeEnte = rst2.getString("nomeEnte");
+	    			}
 	    			
 	    			Ente ente = new Ente(email, password, nomeEnte, nomeResponsabile, cognomeResponsabile);
 	    			utente = ente;
@@ -449,22 +453,5 @@ System.out.println(idEnte);
 		}
 	
 		return provinciaLista;
-	}
-	
-	public static ArrayList<String> getTipo(){
-		ArrayList<String> listaTipo = new ArrayList<String>();
-		try {
-			Statement st = con.createStatement();
-			ResultSet rst = st.executeQuery("SELECT distinct tipo from mercurydb.evento");
-						
-			while(rst.next()) {
-				listaTipo.add(rst.getString("tipo"));}
-					
-		} catch (Exception e) {
-			System.out.println("Errore getTipi");
-			e.printStackTrace();
-		}
-	
-		return listaTipo;
 	}
 }
