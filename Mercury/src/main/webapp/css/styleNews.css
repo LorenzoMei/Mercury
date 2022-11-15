@@ -25,3 +25,24 @@
      width:500px;
      height:500px;
 }
+
+.tipoDiv{
+  display: none;
+}
+
+.regioneDiv{
+  display: none;
+}
+
+.cadenzaDiv{
+  display: none;
+}
+
+.buttonIscriviti{
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  bottom:5%;
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
