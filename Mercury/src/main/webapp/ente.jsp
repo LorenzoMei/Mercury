@@ -6,6 +6,7 @@
 <title>Ente</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="css/styleHome.css">
         <style type="text/css">
             
             .drop-down-list{
@@ -20,7 +21,10 @@
 
 <div class="aggiunta" id="absoluteCenteredDiv">
     
-    <form method="get" action="">
+    
+	
+            <div class="drop-down-list card">
+            <form method="get" action="">
 
 	<h1>FORM AGGIUNTA EVENTI</h1>
 	<h3>ENTE: XXXXXX</h3>
@@ -37,8 +41,6 @@
 	</select>
 	</label>
 	<br><br>
-	
-            <div class="drop-down-list card">
                 
                 <div class="divider"></div>
                 <form>
@@ -58,7 +60,7 @@
                         </select>
                     </div>
             </form>
-            </div>
+            
 	<br><br>
   	<label for="dataInizio"> Data inizio:
 		<input type=date id=today name="dataInizio" min="2015-01-01" max="2030-12-31">
@@ -81,6 +83,7 @@
 	<input type="submit" value="Aggiungi">
 	
 	</form>
+	</div>
 </div>
 
 
