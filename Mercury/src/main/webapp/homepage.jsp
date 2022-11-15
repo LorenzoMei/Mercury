@@ -18,7 +18,7 @@
 
 <div class="header">
   <h1>MERCURY</h1>
-  <h4>Portale eventi su tutto il territori nazionale</h4>  
+  <h4>Portale eventi su tutto il territorio nazionale</h4>  
 </div>
 
 
@@ -26,19 +26,54 @@
 
   <div class="sidebar">
 
-  <form method="get" action="index.jsp">
-  <label for="filtroZona"> 
-  	<input type="checkbox" id="checkFiltroZona" name="checkFiltroZona" value=true> Filtra per zona:
-	<select name="FiltroZona" id="FiltroZona">
-                <option value="${category}">
-                    ${category}
-                </option>
-	</select>
-  </label><br>
+  <form method="get" action="">
   
-  <label for="filtroData"> <input type="checkbox" id="filtroTipo" name="filtroTipo" value=true> Filtra per tipologia d'evento</label><br>
-  <label for="filtroData"> <input type="checkbox" id="filtroData" name="filtroData" value=true> Filtra per data</label><br>
-  <div class="date">
+  <label for="filtroZona"> 
+  	<input type="checkbox" id="checkFiltroZona" name="checkFiltroZona"> Filtra per zona:
+  </label>
+
+  <div class="regioneDiv" id="regioneDiv">
+	<label for="regione" id="labelRegione">Regione:<br>
+	<select name="regione" id="regione">
+	  <option value="1">A</option>
+	  <option value="2">B</option>
+	</select>
+	</label>
+	<label for="provincia" id="labelProvincia" style="display:none">Provincia:
+	<select name="provincia" id ="provincia" style="display:none">
+	  <option value="0">-none-</option>
+	  <option value="1">A</option>
+	  <option value="2">B</option>
+	</select>
+	</label>
+	<label for="comune" id="labelComune" style="display:none">Comune:
+	<select name="comune" id="comune" style="display:none">
+	  <option value="0">-none-</option>
+	  <option value="1">A</option>
+	  <option value="2">B</option>
+	</select>
+	</label>
+   </div>
+  <br>
+  
+  <label for="filtroTipo"> 
+  	<input type="checkbox" id="checkFiltroTipo" name="checkFiltroTipo"> Filtra per tipo d'evento
+  </label>
+  
+  <div class="tipoDiv" id="tipoDiv">
+	<label for="tipologia">Tipologia:<br>
+	<select name="tipologia">
+	  <option value="A">A</option>
+	  <option value="B">B</option>
+	</select>
+	</label>
+  </div>
+  <br>
+	
+  <label for="filtroData"> 
+  	<input type="checkbox" id="checkFiltroData" name="checkFiltroData"> Filtra per data
+  </label>
+  <div class="dataDiv" id="dataDiv">
   	<label for="dataInizio"> Data inizio:
 		<input type=date id=today name="dataInizio" min="2015-01-01" max="2030-12-31">
 	</label>
@@ -52,10 +87,10 @@
 		document.getElementById('today2').value = new Date().toISOString().substring(0, 10);
 	</script>
   </div>
-  
-  <label for="filtroFinal">
-  <input type="submit" value="Esegui filtro">
-  </label>
+  <br>
+  <div class="buttonFiltro">
+	  <input type="submit" value="Esegui filtro">
+  </div>
   </form>
   </div>
 
