@@ -186,20 +186,20 @@ public class Utilities {
 	    
 	    try {
 	    	Statement st = con.createStatement();
-	    	String query = "Select * from utente where email='" + email + "' AND password='" + password + "'";
+	    	String query = "Select * from utente join ente on ente.utenteFk = utente.idUtente"
+	    			+ " where email='" + email + "' AND password='" + password + "'";
 	    	ResultSet rst = st.executeQuery(query);
 	    	
 	    	while(rst.next()) {
 	    		if(rst.getString("ruolo").equals("ente")) {
-	    			Ente ente = new Ente(rst.getString("email"), rst.getString("password"),
-	    					    rst.getString("idUtente"), rst.getString("nome"), rst.getString("cognome"));
 	    			
-	    			query = "Select nomeEnte from ente where utenteFK='" + ente.getNomeEnte()+"'";
-	    			ResultSet rst2 = st.executeQuery(query);
+	    			System.out.println("SONO QUI");
 	    			
-	    			while(rst2.next()) {
-	    				ente.setNomeEnte(rst.getString("nomeEnte"));
-	    			}
+	    			String nomeResponsabile = rst.getString("nome");
+	    			String cognomeResponsabile = rst.getString("cognome");
+	    			String nomeEnte = rst.getString("nomeEnte");
+	    			
+	    			Ente ente = new Ente(email, password, nomeEnte, nomeResponsabile, cognomeResponsabile);
 	    			utente = ente;
 	    			
 	    		}
@@ -390,13 +390,14 @@ System.out.println(idEnte);
 			return lettera;	
 	}
 	
-	public static List<String> getComune(int provincia) {
+	public static ArrayList<String> getComune(String provincia) {
 		
-		List<String> listaComuni = null;
+		ArrayList<String> listaComuni = null;
 		
 		try {
 			Statement st = con.createStatement();
-			ResultSet rst = st.executeQuery("SELECT * FROM comuni WHERE provinciafk = " + Integer.toString(provincia));
+			ResultSet rst = st.executeQuery("SELECT * FROM comuni join provincia on provincia.idProvincia = comuni.provinciafk"
+					+ " WHERE nomeProvincia = " + provincia);
 			
 			listaComuni = new ArrayList<String>();
 			
@@ -419,7 +420,7 @@ System.out.println(idEnte);
 		
 		try {
 			Statement st = con.createStatement();
-			String query = "select distinct nomeRegione from mercurydb.regioni join mercurydb.zona on idRegioni=regionefk";
+			String query = "select nomeRegione from regioni";
 		ResultSet rst = st.executeQuery(query);
 		
 		while(rst.next()) {
@@ -432,11 +433,12 @@ System.out.println(idEnte);
 		return regioneList;		
 	}
 	
-	public static ArrayList<String> getProvincia(int idRegione) {
-		ArrayList<String> provinciaLista = new ArrayList();
+	public static ArrayList<String> getProvincia(String regione) {
+		ArrayList<String> provinciaLista = new ArrayList<String>();
 		try {
 			Statement st = con.createStatement();
-			ResultSet rst = st.executeQuery("SELECT distinct nomeprovincia from mercurydb.provincia join mercurydb.regioni on regioneFK ="+ idRegione);
+			ResultSet rst = st.executeQuery("SELECT * from provincia join regioni on provincia.regionefk = regioni.idRegioni WHERE "
+					+ "nomeRegione = "+ regione);
 						
 			while(rst.next()) {
 				provinciaLista.add(rst.getString("nomeProvincia"));}
