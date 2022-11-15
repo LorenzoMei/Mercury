@@ -80,6 +80,8 @@ public class ServletGestione extends HttpServlet {
 				UtenteRegistrato utenteRegistrato = new UtenteRegistrato(emailNews, zona, tipo, cadenza, LocalDate.now());
 				Utilities.iscrizioneNews(utenteRegistrato);
 				
+				request.getRequestDispatcher("ServletEventi?operazione=0").forward(request, response);
+				
 				break;
 		}
 	}
