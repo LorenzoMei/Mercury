@@ -431,4 +431,21 @@ System.out.println(idEnte);
 		}
 		return regioneList;		
 	}
+	
+	public static ArrayList<String> getProvincia(int idRegione) {
+		ArrayList<String> provinciaLista = new ArrayList();
+		try {
+			Statement st = con.createStatement();
+			ResultSet rst = st.executeQuery("SELECT distinct nomeprovincia from mercurydb.provincia join mercurydb.regioni on regioneFK ="+ idRegione);
+						
+			while(rst.next()) {
+				provinciaLista.add(rst.getString("nomeProvincia"));}
+					
+		} catch (Exception e) {
+			System.out.println("Errore getProvincia");
+			e.printStackTrace();
+		}
+	
+		return provinciaLista;
+	}
 }
