@@ -139,6 +139,63 @@
 <div class="footer">
   <h2>Footer</h2>
 </div>
+	
+  <script>
+  //Check per ZONA
+  let checkboxFiltroZona = document.getElementById("checkFiltroZona");
+  checkboxFiltroZona.addEventListener( "change", () => {
+     if ( checkboxFiltroZona.checked ) {
+    	 document.getElementById("regioneDiv").style.display = "block";
+     } else {
+    	 document.getElementById("regioneDiv").style.display = "none";
+     }
+  });
+  
+  //Check per provincia
+  var selectRegione = document.getElementById("regione");
+  selectRegione.addEventListener("change", () => {
+	  if(selectRegione.value != 0){
+	  	 document.getElementById("labelProvincia").style.display = "block";
+     	 document.getElementById("provincia").style.display = "block";
+	  }
+	  else{
+		  document.getElementById("labelProvincia").style.display = "none";
+      	 document.getElementById("provincia").style.display = "none";
+	  }
+  //Check per comune
+  })
+  var selectProvincia = document.getElementById("provincia");
+  selectProvincia.addEventListener("change", () => {
+	  if(selectProvincia.value != 0){
+		 document.getElementById("labelComune").style.display = "block";
+      	 document.getElementById("comune").style.display = "block";
+	  }
+	  else{
+		  document.getElementById("labelComune").style.display = "none";
+       	 document.getElementById("comune").style.display = "none";
+	  }
+  })
+  
+  //Check per TIPOLOGIA
+  let checkboxFiltroTipo = document.getElementById("checkFiltroTipo");
+  checkboxFiltroTipo.addEventListener( "change", () => {
+     if ( checkboxFiltroTipo.checked ) {
+    	 document.getElementById("tipoDiv").style.display = "block";
+     } else {
+    	 document.getElementById("tipoDiv").style.display = "none";
+     }
+  });
+  
+  //Check per DATA
+  let checkboxFiltroData = document.getElementById("checkFiltroData");
+  checkboxFiltroData.addEventListener( "change", () => {
+     if ( checkboxFiltroData.checked ) {
+    	 document.getElementById("dataDiv").style.display = "block";
+     } else {
+    	 document.getElementById("dataDiv").style.display = "none";
+     }
+  });
+  </script>
 
 </body>
 </html>
