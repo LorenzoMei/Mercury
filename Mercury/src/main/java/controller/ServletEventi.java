@@ -13,6 +13,7 @@ import model.Zona;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -38,14 +39,10 @@ public class ServletEventi extends HttpServlet {
 		// TODO Auto-generated method stub
 		PrintWriter out = response.getWriter();
 		
-		int operation = Integer.parseInt(request.getParameter("operation"));
+		int operation = 0;
 		
 		switch(operation) {
-			case 1:
-				List<Evento> listaEventi = Utilities.listaEventi();
-				request.setAttribute("listaEventi", listaEventi);
-				
-				break;
+			
 			case 2: 
 				String nome = (String) request.getParameter("nome");
 				String descrizione = (String) request.getParameter("descrizione");
@@ -72,6 +69,14 @@ public class ServletEventi extends HttpServlet {
 				Evento e = (Evento) request.getAttribute("evento");
 				request.setAttribute("evento", e);
 				request.getRequestDispatcher("evento.jsp").forward(request, response);
+				break;
+				
+			default:
+				Utilities.connessione();
+				List<Evento> listaEventi = Utilities.listaEventi();
+				request.setAttribute("listaEventi", listaEventi);
+				request.getRequestDispatcher("homepage.jsp").forward(request, response);
+				
 				break;
 		}
 	}
