@@ -454,4 +454,46 @@ System.out.println(idEnte);
 	
 		return provinciaLista;
 	}
+	
+	public static ArrayList<Evento> filtraEventiPerZona(String filtroRegione, String filtroProvincia, String filtroComune, List<Evento> listaEventi){
+		ArrayList<Evento> listaEventiFiltrata = new ArrayList<Evento>();
+		
+		for(int i = 0; i < listaEventi.size(); i++) {
+			try {
+				Statement st = con.createStatement();
+				ResultSet rst = st.executeQuery("SELECT * FROM comuni join provincia on comuni.provinciafk = provincia.idProvincia join "
+						+ "regioni on provincia.regionefk = regioni.idRegioni WHERE idRegioni = " + Integer.toString(listaEventi.get(i).getZona().getRegione())
+						+ " AND idProvincia = " + Integer.toString(listaEventi.get(i).getZona().getProvincia()) + " AND "
+						+ "idComuni = " + Integer.toString(listaEventi.get(i).getZona().getComune()));
+				
+				while(rst.next()) {
+					if(filtroRegione != null) {
+						if(filtroProvincia != null) {
+							if(filtroComune != null) {
+								if(rst.getString("nomeRegione").equals(filtroRegione) && rst.getString("nomeProvincia").equals(filtroProvincia) &&
+										rst.getString("comune").equals(filtroComune)) {
+									listaEventiFiltrata.add(listaEventi.get(i));
+								}
+							}
+							else {
+								if(rst.getString("nomeRegione").equals(filtroRegione) && rst.getString("nomeProvincia").equals(filtroProvincia)) {
+									listaEventiFiltrata.add(listaEventi.get(i));
+								}
+							}
+						}
+						else {
+							if(rst.getString("nomeRegione").equals(filtroRegione)) {
+								listaEventiFiltrata.add(listaEventi.get(i));
+							}
+						}
+					}
+				}
+			}
+			catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return listaEventiFiltrata;
+	}
 }
