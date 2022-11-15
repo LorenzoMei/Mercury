@@ -450,4 +450,21 @@ System.out.println(idEnte);
 	
 		return provinciaLista;
 	}
+	
+	public static ArrayList<String> getTipo(){
+		ArrayList<String> listaTipo = new ArrayList<String>();
+		try {
+			Statement st = con.createStatement();
+			ResultSet rst = st.executeQuery("SELECT distinct tipo from mercurydb.evento");
+						
+			while(rst.next()) {
+				listaTipo.add(rst.getString("tipo"));}
+					
+		} catch (Exception e) {
+			System.out.println("Errore getTipi");
+			e.printStackTrace();
+		}
+	
+		return listaTipo;
+	}
 }
