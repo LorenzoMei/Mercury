@@ -1,4 +1,5 @@
 <%@page import="model.Utilities"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
     import ="java.util.List"
@@ -31,29 +32,25 @@
   <label for="filtroZona"> 
   	<input type="checkbox" id="checkFiltroZona" name="checkFiltroZona"> Filtra per zona:
   </label>
-
   <div class="regioneDiv" id="regioneDiv">
-	<label for="regione" id="labelRegione">Regione:<br>
-	<select name="regione" id="regione">
-	  <option value="1">A</option>
-	  <option value="2">B</option>
-	</select>
-	</label>
-	<label for="provincia" id="labelProvincia" style="display:none">Provincia:
-	<select name="provincia" id ="provincia" style="display:none">
-	  <option value="0">-none-</option>
-	  <option value="1">A</option>
-	  <option value="2">B</option>
-	</select>
-	</label>
-	<label for="comune" id="labelComune" style="display:none">Comune:
-	<select name="comune" id="comune" style="display:none">
-	  <option value="0">-none-</option>
-	  <option value="1">A</option>
-	  <option value="2">B</option>
-	</select>
-	</label>
-   </div>
+ <form>
+                    <div class="input-field">
+                        <select id="regione">
+                            <option>Seleziona Regione</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <select id="provincia">
+                            <option>Seleziona Provincia</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <select id="comune">
+                            <option>Seleziona Comune</option>
+                        </select>
+                    </div>
+   </form>
+ </div>
   <br>
   
   <label for="filtroTipo"> 
@@ -63,8 +60,15 @@
   <div class="tipoDiv" id="tipoDiv">
 	<label for="tipologia">Tipologia:<br>
 	<select name="tipologia">
-	  <option value="A">A</option>
-	  <option value="B">B</option>
+<%
+Utilities.connessione();
+ArrayList<String> listaTipo = Utilities.getTipo();
+for( int i = 0; i < listaTipo.size(); i++){
+	out.println("<option value=\""+listaTipo.get(i)+"\">" + listaTipo.get(i) + "</option>" );
+}
+
+%>	
+
 	</select>
 	</label>
   </div>
@@ -139,8 +143,99 @@
 <div class="footer">
   <h2>Footer</h2>
 </div>
-	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $.ajax({
+                    url: "ServletFiltro",
+                    method: "GET",
+                    data: {operation: 'regione'},
+                    success: function (data, textStatus, jqXHR) {
+                        console.log(data);
+                        let obj = $.parseJSON(data);
+                        var i=0;
+                        $.each(obj, function (key,value) {
+                            $('#regione').append('<option value="' + ++i + '">' + value + '</option>')
+                        });
+                        $('select').formSelect();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $('#regione').append('<option>Regione non disponibile!</option>');
+                    },
+                    cache: false
+                });
+
+
+                $('#regione').change(function () {
+                    $('#provincia').find('option').remove();
+                    $('#provincia').append('<option>Seleziona Provincia</option>'); 
+                    $('#comune').find('option').remove();
+                    $('#comune').append('<option>Seleziona Comune</option>');
+
+                    let cid = $('#regione').val();
+                    let data = {
+                        operation: "provincia",
+                        id: cid
+                    };
+
+                    $.ajax({
+                        url: "ServletFiltro",
+                        method: "GET",
+                        data: data,
+                        success: function (data, textStatus, jqXHR) {
+                            console.log(data);
+                            let obj = $.parseJSON(data);
+                            var i=0;
+                            $.each(obj, function (key, value) {
+                                $('#provincia').append('<option value="' + ++i + '">' + value + '</option>')
+                            });
+                            $('select').formSelect();
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $('#provincia').append('<option>Provincia non disponibile</option>');
+                        },
+                        cache: false
+                    });
+                });
+                
+                $('#provincia').change(function () {
+                    $('#comune').find('option').remove();
+                    $('#comune').append('<option>Seleziona Comune</option>');
+
+                    let sid = $( "#provincia option:selected" ).text();
+                    let data = {
+                        operation: "comune",
+                        id: sid
+                    };
+
+                    $.ajax({
+                        url: "ServletFiltro",
+                        method: "GET",
+                        data: data,
+                        success: function (data, textStatus, jqXHR) {
+                            console.log(data);
+                            let obj = $.parseJSON(data);
+                            var i=0;
+                            $.each(obj, function (key, value) {
+                                $('#comune').append('<option value="' + ++i + '">' + value + '</option>')
+                            });
+                            $('select').formSelect();
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $('#comune').append('<option>Comune non disponibile</option>');
+                        },
+                        cache: false
+                    });
+                });
+
+            });
+        </script>	
+        
   <script>
+  
+  
+  
   //Check per ZONA
   let checkboxFiltroZona = document.getElementById("checkFiltroZona");
   checkboxFiltroZona.addEventListener( "change", () => {
