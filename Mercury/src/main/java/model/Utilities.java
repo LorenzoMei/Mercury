@@ -496,4 +496,21 @@ System.out.println(idEnte);
 		
 		return listaEventiFiltrata;
 	}
+	
+		public static ArrayList<String> getTipo() {
+		ArrayList<String> listaTipo = new ArrayList<String>();
+		try {
+			Statement st = con.createStatement();
+			ResultSet rst = st.executeQuery("SELECT distinct tipo from evento");
+						
+			while(rst.next()) {
+				listaTipo.add(rst.getString("tipo"));}
+					
+		} catch (Exception e) {
+			System.out.println("Errore getTipo");
+			e.printStackTrace();
+		}
+	
+		return listaTipo;
+	}
 }
