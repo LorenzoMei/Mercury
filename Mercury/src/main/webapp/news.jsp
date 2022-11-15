@@ -1,86 +1,85 @@
-<%@page language="java" import="java.util.*" %>
+<%@page language="java" import="java.util.*, model.Utilities"%>
 
 <html>
 <head>
-<title>Ente</title>
-<link rel="stylesheet" href="css/styleNews.css">
-
+<title>News</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <style type="text/css">
+            
+            .drop-down-list{
+                margin: 150px auto;
+                width: 50%;
+                padding: 30px;
+            }
+        </style>
 </head>
 <body> 
 
 <div class="aggiunta" id="absoluteCenteredDiv">
     
-    <form method="post" action="">
+    <form method="post" action="ServletGestione?operazione=2">
 
-	<h1>FORM ISCRIZIONE NEWSLETTER</h1>
-	<br>	
+		<h1>FORM ISCRIZIONE NEWSLETTER</h1>
+		<br>	
 	
-	<label for="tipo"> 
-	Vuoi selezionare una preferenza sulla tipologia dell'evento? 
-	<input type="checkbox" id="checkTipo" name="checkTipo">
-	</label>
 	  
 	  <div class="tipoDiv" id="tipoDiv">
 	  <br>
-		<label for="tipologia">Tipologia:<br>
-		<select name="tipologia">
-		  <option value="A">A</option>
-		  <option value="B">B</option>
-		  <option value="C">C</option>
+		<label for="tipo">Tipologia<br>
+		<select name="tipo">
+		  <%
+		  	ArrayList<String> listaTipo = Utilities.getTipo();
+		  	for(int i=0; i < listaTipo.size(); i++){ 
+		  		%>
+		  		<option value="<%out.print(listaTipo.get(i));%>"><% out.print(listaTipo.get(i));%></option>
+		 <%
+		  	}
+		 %>
 		</select>
 		</label>
 	  </div>
 	  
 	<br>
 	
-	<label for="zona"> 
-	Vuoi selezionare una preferenza sulla zona? 
-	<input type="checkbox" id="checkZona" name="checkZona">
-	</label>
+	<label for="zona"> Vuoi selezionare una preferenza sulla zona? </label>
 	
-	  <div class="regioneDiv" id="regioneDiv">
-	  <br>
-		<label for="regione" id="labelRegione">Regione:<br>
-		<select name="regione" id="regione">
-<%
-Utilities.connessione();
-ArrayList<String> listaTipo = Utilities.getTipo();
-for (int i = 0; i < listaTipo.size(); i++){
-	out.write("<option value=\""+listaTipo.get(i)+"\">"+listaTipo.get(i)+"</option>");
-}
-%>	
-		</select>
-		</label>
-		<label for="provincia" id="labelProvincia" style="display:none">Provincia:
-		<select name="provincia" id ="provincia" style="display:none">
-		  <option value="0">-none-</option>
-		  <option value="1">A</option>
-		  <option value="2">B</option>
-		</select>
-		</label>
-		<label for="comune" id="labelComune" style="display:none">Comune:
-		<select name="comune" id="comune" style="display:none">
-		  <option value="0">-none-</option>
-		  <option value="1">A</option>
-		  <option value="2">B</option>
-		</select>
-		</label>
-	   </div>
+	  <div class="drop-down-list card">
+                
+              <div class="divider"></div>
+           
+                    <div class="input-field">
+                        <select id="regione" name="regione">
+                            <option>Seleziona Regione</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <select id="provincia" name="provincia">
+                            <option>Seleziona Provincia</option>
+                        </select>
+                    </div>
+                    <div class="input-field">
+                        <select id="comune" name="comune">
+                            <option>Seleziona Comune</option>
+                        </select>
+                    </div>
+            </div>
 	   
 	<br>
 	
-	<label for="cadenza">
-	 Vuoi selezionare una preferenza sulla ricezione della mail?
-	<input type="checkbox" id="checkCadenza" name="checkCadenza">
-	</label>
 	  <div class="cadenzaDiv" id="cadenzaDiv">
 	  <br>
-		<label for="cadenza">Cadenza della newsletter:<br>
-		<select name="tipologia">
-		  <option value="giorno">Giornaliera</option>
-		  <option value="settimana">Settimanale</option>
-		  <option value="mese">Mensile</option>
+		<label for="cadenza">Cadenza della newsletter<br>
+		<select name="cadenza">
+		  	<option value="settimana">Settimanale (default)</option>
+		  	<option value="mese">Mensile</option>
 		</select>
+		</label>
+	  </div>
+	  <div class="cadenza" id="cadenzaDiv">
+	  <br>
+		<label for="emailNews">Email<br>
+		<input type="email" name="emailNews">
 		</label>
 	  </div>
   
@@ -92,68 +91,95 @@ for (int i = 0; i < listaTipo.size(); i++){
 	</form>
 </div>
 
-  <script>
-  //Check per ZONA
-  let checkboxZona = document.getElementById("checkZona");
-  checkboxZona.addEventListener( "change", () => {
-     if ( checkboxZona.checked ) {
-    	 document.getElementById("regioneDiv").style.display = "block";
-     } else {
-    	 document.getElementById("regioneDiv").style.display = "none";
-     }
-  });
-  
-  //Check per provincia
-  var selectRegione = document.getElementById("regione");
-  selectRegione.addEventListener("change", () => {
-	  if(selectRegione.value != 0){
-	  	 document.getElementById("labelProvincia").style.display = "block";
-     	 document.getElementById("provincia").style.display = "block";
-	  }
-	  else{
-		  document.getElementById("labelProvincia").style.display = "none";
-      	 document.getElementById("provincia").style.display = "none";
-	  }
-  //Check per comune
-  })
-  var selectProvincia = document.getElementById("provincia");
-  selectProvincia.addEventListener("change", () => {
-	  if(selectProvincia.value != 0){
-		 document.getElementById("labelComune").style.display = "block";
-      	 document.getElementById("comune").style.display = "block";
-	  }
-	  else{
-		  document.getElementById("labelComune").style.display = "none";
-       	 document.getElementById("comune").style.display = "none";
-	  }
-  })
-  
-  //Check per TIPOLOGIA
-  let checkboxTipo = document.getElementById("checkTipo");
-  checkboxTipo.addEventListener( "change", () => {
-     if ( checkboxTipo.checked ) {
-    	 document.getElementById("tipoDiv").style.display = "block";
-     } else {
-    	 document.getElementById("tipoDiv").style.display = "none";
-     }
-  });
-  
-  //Check per CADENZA
-  let checkboxCadenza = document.getElementById("checkCadenza");
-  checkboxCadenza.addEventListener( "change", () => {
-     if ( checkboxCadenza.checked ) {
-    	 document.getElementById("cadenzaDiv").style.display = "block";
-     } else {
-    	 document.getElementById("cadenzaDiv").style.display = "none";
-     }
-  });
-  </script>
-<br>
-<footer>
-<form action="http://localhost:8080/Mercury">
-<input type="submit" value="HOME">
-</form>
-</footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $.ajax({
+                    url: "ServletFiltro",
+                    method: "GET",
+                    data: {operation: 'regione'},
+                    success: function (data, textStatus, jqXHR) {
+                        console.log(data);
+                        let obj = $.parseJSON(data);
+                        var i=0;
+                        $.each(obj, function (key,value) {
+                            $('#regione').append('<option value="' + ++i + '">' + value + '</option>')
+                        });
+                        $('select').formSelect();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        $('#regione').append('<option>Regione non disponibile!</option>');
+                    },
+                    cache: false
+                });
+
+
+                $('#regione').change(function () {
+                    $('#provincia').find('option').remove();
+                    $('#provincia').append('<option>Seleziona Provincia</option>'); 
+                    $('#comune').find('option').remove();
+                    $('#comune').append('<option>Seleziona Comune</option>');
+
+                    let cid = $('#regione').val();
+                    let data = {
+                        operation: "provincia",
+                        id: cid
+                    };
+
+                    $.ajax({
+                        url: "ServletFiltro",
+                        method: "GET",
+                        data: data,
+                        success: function (data, textStatus, jqXHR) {
+                            console.log(data);
+                            let obj = $.parseJSON(data);
+                            var i=0;
+                            $.each(obj, function (key, value) {
+                                $('#provincia').append('<option value="' + ++i + '">' + value + '</option>')
+                            });
+                            $('select').formSelect();
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $('#provincia').append('<option>Provincia non disponibile</option>');
+                        },
+                        cache: false
+                    });
+                });
+                
+                $('#provincia').change(function () {
+                    $('#comune').find('option').remove();
+                    $('#comune').append('<option>Seleziona Comune</option>');
+
+                    let sid = $('#provincia option:selected').text();
+                    let data = {
+                        operation: "comune",
+                        id: sid
+                    };
+
+                    $.ajax({
+                        url: "ServletFiltro",
+                        method: "GET",
+                        data: data,
+                        success: function (data, textStatus, jqXHR) {
+                            console.log(data);
+                            let obj = $.parseJSON(data);
+                            var i=0;
+                            $.each(obj, function (key, value) {
+                                $('#comune').append('<option value="' + ++i + '">' + value + '</option>')
+                            });
+                            $('select').formSelect();
+                        },
+                        error: function (jqXHR, textStatus, errorThrown) {
+                            $('#comune').append('<option>Comune non disponibile</option>');
+                        },
+                        cache: false
+                    });
+                });
+
+            });
+            
+      </script>
 
 
 </body>
