@@ -148,6 +148,12 @@ for (int i = 0; i < listaTipo.size(); i++){
      }
   });
   </script>
+<br>
+<footer>
+<form action="http://localhost:8080/Mercury">
+<input type="submit" value="HOME">
+</form>
+</footer>
 
 
 </body>
