@@ -65,6 +65,10 @@ body {
   font-size: 14px;
 }
 
+.buttonFiltro{
+  padding-left:45%;
+}
+
 .content { 
   -ms-flex: 84%; /* IE10 */
   flex: 84%;
