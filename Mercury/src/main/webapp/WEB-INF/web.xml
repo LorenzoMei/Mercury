@@ -12,7 +12,7 @@
   </servlet-mapping>
   <display-name>Mercury</display-name>
   <welcome-file-list>
-    <welcome-file>homepage.jsp</welcome-file>
+    <welcome-file>ServletEventi</welcome-file>
   </welcome-file-list>
   <servlet>
     <description></description>
