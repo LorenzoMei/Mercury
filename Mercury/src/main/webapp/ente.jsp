@@ -145,7 +145,7 @@
                     $('#comune').find('option').remove();
                     $('#comune').append('<option>Seleziona Comune</option>');
 
-                    let sid = $('#provincia').val();
+                    let sid = $( "#provincia option:selected" ).text();
                     let data = {
                         operation: "comune",
                         id: sid
