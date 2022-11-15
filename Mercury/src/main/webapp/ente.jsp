@@ -14,6 +14,17 @@
                 width: 50%;
                 padding: 30px;
             }
+	    .drop-down-list h3 {
+		text-align:center;
+	    }
+	    .buttonAggiungi{
+		  margin: 0;
+		  position: absolute;
+		  left: 50%;
+		  bottom:2%;
+		  -ms-transform: translateX(-50%);
+		  transform: translateX(-50%);
+	    }
         </style>
 
 </head>
@@ -80,7 +91,9 @@
 		  <textarea id="nomeEvento" name="nomeEvento" rows="4" cols="65"></textarea>
 	</label>
 	<br><br>
-	<input type="submit" value="Aggiungi">
+	<div class="buttonAggiungi">
+		<input type="submit" value="Aggiungi">
+	</div>
 	
 	</form>
 	</div>
