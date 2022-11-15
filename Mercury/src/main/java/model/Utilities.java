@@ -152,9 +152,8 @@ public class Utilities {
 			
 			if(rst.next()) {
 				idZona = rst.getInt("idZona");
-				System.out.println("ID: " + idZona);
 			}
-					
+								
 			int result = st.executeUpdate("INSERT INTO utenteregistrato (email, tipo, cadenza, zonaFk, data) VALUES ('" + utenteRegistrato.getEmail() + "', '" 
 					+ utenteRegistrato.getTipo() + "', '" + utenteRegistrato.getCadenza() + "', " 
 					+ Integer.toString(idZona) + ", '"+ day.toString() + "')" );
@@ -460,17 +459,84 @@ System.out.println(idEnte);
 			 System.out.println(" errore estrapolazione regione");
 	    	   e.printStackTrace();
 		}
+		Utilities.close();
 		return regioneList;		
 	}
 	
-	public static ArrayList<String> getProvincia(int regione) {
+	public static int getIdRegione(String regione) {
+		Utilities.connessione();
+		
+		int id=-1;
+		
+		try {
+			Statement st = con.createStatement();
+			String query = "SELECT idRegioni FROM regioni WHERE nomeRegione='" + regione +"'";
+			ResultSet rst = st.executeQuery(query);
+		
+			while(rst.next()) {
+				id = rst.getInt("idRegioni");
+			}
+		}catch (SQLException e) {
+			 System.out.println(" errore estrapolazione regione");
+	    	   e.printStackTrace();
+		}
+		
+		Utilities.close();
+		return id;	
+	}
+	
+	public static int getIdProvinciaFromRegione(int idRegione, String provincia) {
+		Utilities.connessione();
+		
+		int id=-1;
+		
+		try {
+			Statement st = con.createStatement();
+			String query = "SELECT idProvincia FROM provincia WHERE nomeProvincia='" + provincia +
+					"' AND regionefk = " + Integer.toString(idRegione);
+			ResultSet rst = st.executeQuery(query);
+		
+			while(rst.next()) {
+				id = rst.getInt("idProvincia");
+			}
+		}catch (SQLException e) {
+			 System.out.println(" errore estrapolazione regione");
+	    	   e.printStackTrace();
+		}
+		Utilities.close();
+		return id;	
+	}
+	
+	public static int getIdComuneFromProvincia(int idProvincia, String comune) {
+		Utilities.connessione();
+		
+		int id=-1;
+		
+		try {
+			Statement st = con.createStatement();
+			String query = "SELECT idComuni FROM comuni WHERE comune='" + comune +
+					"' AND provinciafk = " + Integer.toString(idProvincia);
+			ResultSet rst = st.executeQuery(query);
+		
+			while(rst.next()) {
+				id = rst.getInt("idComuni");
+			}
+		}catch (SQLException e) {
+			 System.out.println(" errore estrapolazione regione");
+	    	   e.printStackTrace();
+		}
+		Utilities.close();
+		return id;	
+	}
+	
+	public static ArrayList<String> getProvincia(String regione) {
 		Utilities.connessione();
 
 		ArrayList<String> provinciaLista = new ArrayList<String>();
 		try {
 			Statement st = con.createStatement();
 			ResultSet rst = st.executeQuery("SELECT * from provincia join regioni on provincia.regionefk = regioni.idRegioni WHERE "
-					+ "idRegioni = "+ regione);
+					+ "nomeRegione = '"+ regione + "'");
 						
 			while(rst.next()) {
 				provinciaLista.add(rst.getString("nomeProvincia"));}
