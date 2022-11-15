@@ -412,4 +412,23 @@ System.out.println(idEnte);
 		
 		return listaComuni;
 	}
+	
+	public static ArrayList<String> getRegione() {
+		
+		ArrayList<String> regioneList = new ArrayList<String>();
+		
+		try {
+			Statement st = con.createStatement();
+			String query = "select distinct nomeRegione from mercurydb.regioni join mercurydb.zona on idRegioni=regionefk";
+		ResultSet rst = st.executeQuery(query);
+		
+		while(rst.next()) {
+			regioneList.add(rst.getString("nomeRegione"));
+		     }
+		}catch (SQLException e) {
+			 System.out.println(" errore estrapolazione regione");
+	    	   e.printStackTrace();
+		}
+		return regioneList;		
+	}
 }
