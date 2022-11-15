@@ -389,4 +389,27 @@ System.out.println(idEnte);
 			NewsLetter lettera = new NewsLetter(eventi,u);
 			return lettera;	
 	}
+	
+	public static List<String> getComune(int provincia) {
+		
+		List<String> listaComuni = null;
+		
+		try {
+			Statement st = con.createStatement();
+			ResultSet rst = st.executeQuery("SELECT * FROM comuni WHERE provinciafk = " + Integer.toString(provincia));
+			
+			listaComuni = new ArrayList<String>();
+			
+			while(rst.next()) {
+				String comune = rst.getString("comune");
+				
+				listaComuni.add(comune);
+			}
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return listaComuni;
+	}
 }
