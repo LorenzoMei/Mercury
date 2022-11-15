@@ -6,7 +6,7 @@ INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (005,'Asti',01
 INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (006,'Alessandria',01);
 INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (096,'Biella',01);
 INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (103,'Verbano-Cusio-Ossola',01);
-INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (007,'Valle d''Aosta',02);
+INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (007,'Valle d-Aosta',02);
 INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (012,'Varese',03);
 INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (013,'Como',03);
 INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (014,'Sondrio',03);
@@ -67,7 +67,7 @@ INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (057,'Rieti',1
 INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (058,'Roma',12);
 INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (059,'Latina',12);
 INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (060,'Frosinone',12);
-INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (066,'L''Aquila',13);
+INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (066,'L-Aquila',13);
 INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (067,'Teramo',13);
 INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (068,'Pescara',13);
 INSERT INTO Provincia(idProvincia,nomeProvincia,regionefk) VALUES (069,'Chieti',13);

@@ -1,5 +1,5 @@
 INSERT INTO Regioni(idRegioni,nomeRegione) VALUES (1,'Piemonte');
-INSERT INTO Regioni(idRegioni,nomeRegione) VALUES (2,'Valle d''Aosta');
+INSERT INTO Regioni(idRegioni,nomeRegione) VALUES (2,'Valle d-Aosta');
 INSERT INTO Regioni(idRegioni,nomeRegione) VALUES (3,'Lombardia');
 INSERT INTO Regioni(idRegioni,nomeRegione) VALUES (4,'Trentino-Alto Adige');
 INSERT INTO Regioni(idRegioni,nomeRegione) VALUES (5,'Veneto');
