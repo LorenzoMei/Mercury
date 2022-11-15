@@ -146,17 +146,18 @@ public class Utilities {
 			int provincia = utenteRegistrato.getZona().getProvincia();
 			int comune = utenteRegistrato.getZona().getComune();
 			LocalDate day = utenteRegistrato.getUltimoEmail();
-			ResultSet rst = st.executeQuery("SELECT idZona FROM zona WHERE regionefk =" + regione + " AND "
-					+ "provinciafk =" + provincia + " AND comunefk=" + comune );
+			ResultSet rst = st.executeQuery("SELECT idZona FROM zona WHERE regionefk =" + Integer.toString(regione) + " AND "
+					+ "provinciafk =" + Integer.toString(provincia) + " AND comunefk=" + Integer.toString(comune) );
 			
 			
 			if(rst.next()) {
 				idZona = rst.getInt("idZona");
+				System.out.println("ID: " + idZona);
 			}
 					
 			int result = st.executeUpdate("INSERT INTO utenteregistrato (email, tipo, cadenza, zonaFk, data) VALUES ('" + utenteRegistrato.getEmail() + "', '" 
 					+ utenteRegistrato.getTipo() + "', '" + utenteRegistrato.getCadenza() + "', " 
-					+ idZona + ", '"+ day + "')" );
+					+ Integer.toString(idZona) + ", '"+ day.toString() + "')" );
 			
 			if(result != 1) {
 				System.out.println("Iscrizione newsletters non andata a buon fine");
