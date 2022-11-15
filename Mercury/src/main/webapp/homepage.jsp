@@ -33,7 +33,6 @@
   	<input type="checkbox" id="checkFiltroZona" name="checkFiltroZona"> Filtra per zona:
   </label>
   <div class="regioneDiv" id="regioneDiv">
- <form>
                     <div class="input-field">
                         <select id="regione">
                             <option>Seleziona Regione</option>
@@ -49,7 +48,7 @@
                             <option>Seleziona Comune</option>
                         </select>
                     </div>
-   </form>
+
  </div>
   <br>
   
@@ -66,7 +65,6 @@ ArrayList<String> listaTipo = Utilities.getTipo();
 for( int i = 0; i < listaTipo.size(); i++){
 	out.println("<option value=\""+listaTipo.get(i)+"\">" + listaTipo.get(i) + "</option>" );
 }
-
 %>	
 
 	</select>
@@ -101,7 +99,6 @@ for( int i = 0; i < listaTipo.size(); i++){
   <div class="content">
  	
  <%
-
   	List<Evento> list = (List<Evento>) request.getAttribute("listaEventi");
 		  for(int i=0;i<list.size();i++){		  
 %>
@@ -119,32 +116,18 @@ for( int i = 0; i < listaTipo.size(); i++){
 			   <h4>
 			   <%
 			   out.println(list.get(i).getTipo());
-			   %></h4>
-			   
-				  
+			   %></h4> 
 				  </div>
 				  <br>
 				  <%
 		  }
-		  
-		   
-			   %>
-			 
-		 
- 
-  
-        
-  </div>
-  
-  
-  
+			   %> 
+  </div> 
 </div>
-
 <div class="footer">
   <h2>Footer</h2>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
                 $.ajax({
@@ -165,20 +148,16 @@ for( int i = 0; i < listaTipo.size(); i++){
                     },
                     cache: false
                 });
-
-
                 $('#regione').change(function () {
                     $('#provincia').find('option').remove();
                     $('#provincia').append('<option>Seleziona Provincia</option>'); 
                     $('#comune').find('option').remove();
                     $('#comune').append('<option>Seleziona Comune</option>');
-
                     let cid = $('#regione').val();
                     let data = {
                         operation: "provincia",
                         id: cid
                     };
-
                     $.ajax({
                         url: "ServletFiltro",
                         method: "GET",
@@ -202,13 +181,11 @@ for( int i = 0; i < listaTipo.size(); i++){
                 $('#provincia').change(function () {
                     $('#comune').find('option').remove();
                     $('#comune').append('<option>Seleziona Comune</option>');
-
                     let sid = $( "#provincia option:selected" ).text();
                     let data = {
                         operation: "comune",
                         id: sid
                     };
-
                     $.ajax({
                         url: "ServletFiltro",
                         method: "GET",
@@ -228,7 +205,6 @@ for( int i = 0; i < listaTipo.size(); i++){
                         cache: false
                     });
                 });
-
             });
         </script>	
         
