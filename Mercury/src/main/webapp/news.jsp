@@ -42,8 +42,13 @@
 	  <br>
 		<label for="regione" id="labelRegione">Regione:<br>
 		<select name="regione" id="regione">
-		  <option value="1">A</option>
-		  <option value="2">B</option>
+<%
+Utilities.connessione();
+ArrayList<String> listaTipo = Utilities.getTipo();
+for (int i = 0; i < listaTipo.size(); i++){
+	out.write("<option value=\""+listaTipo.get(i)+"\">"+listaTipo.get(i)+"</option>");
+}
+%>	
 		</select>
 		</label>
 		<label for="provincia" id="labelProvincia" style="display:none">Provincia:
