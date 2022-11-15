@@ -42,6 +42,8 @@ public class Utilities {
 	}
 	
 	public static void aggiungiEnte(Ente ente) {
+		Utilities.connessione();
+
 		Statement st = null;
 /* inserimento dati dell'ente nella tabella utente */	    
 		try {
@@ -85,10 +87,14 @@ public class Utilities {
 		catch(SQLException e){   
 	    	   System.out.println(" errore aggiungi ente");
 	    	   e.printStackTrace();
-	    	   }  
+	    	   } 
+		
+		Utilities.close();
 	}
 
 	public static List<Evento> listaEventi(){
+		Utilities.connessione();
+
 		List<Evento> listaEventi = null;
 		try {
 
@@ -125,10 +131,13 @@ public class Utilities {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Utilities.close();
 		return listaEventi;
 	}
 
 	public static void iscrizioneNews(UtenteRegistrato utenteRegistrato) {
+		Utilities.connessione();
+
 		try {
 			Statement st = con.createStatement();
 			int idZona = -1;
@@ -156,9 +165,12 @@ public class Utilities {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Utilities.close();
 	}
 
 	public static void bannaEnte(String email) {
+		Utilities.connessione();
+
 		try {
 			Statement st = con.createStatement();
 			ResultSet rst = st.executeQuery("SELECT idEnte FROM ente join utente on "
@@ -177,10 +189,12 @@ public class Utilities {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Utilities.close();
 		
 	}
 	
 	public static Object login(String email, String password) {
+		Utilities.connessione();
 	    
 	    Object utente = null;
 	    
@@ -221,13 +235,16 @@ public class Utilities {
 	    	   System.out.println(" errore log in");
 	    	   e.printStackTrace();
 	    	   };
-	    	   	    
+	    
+	    Utilities.close();
 	    return utente;
     	
     	
     }
 	
 	public static List<Ente> listaEnti(){
+		Utilities.connessione();
+
 		List<Ente> listaEnti = null;
 		try {
 			Statement st = con.createStatement();
@@ -249,11 +266,13 @@ public class Utilities {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Utilities.close();
 		return listaEnti;
 	}
 	
 	public static void aggiungiEvento(Evento evento) {
-		
+		Utilities.connessione();
+
 		try {
 			Statement st = con.createStatement();
 			int idZona = 0;
@@ -296,10 +315,12 @@ System.out.println(idEnte);
 			System.out.println("Errore aggiungi evento");
 			e.printStackTrace();
 		}
+		Utilities.close();
 	}
 
 	public static NewsLetter news(UtenteRegistrato u) {
-		
+		 Utilities.connessione();
+
 		 ArrayList<Evento> eventi = new ArrayList<Evento>();
 		 LocalDate dataUltimoEmail = u.getUltimoEmail();
 	     LocalDate dataOggi = LocalDate.now();          
@@ -391,17 +412,19 @@ System.out.println(idEnte);
 			} }
 			
 			NewsLetter lettera = new NewsLetter(eventi,u);
+			Utilities.close();
 			return lettera;	
 	}
 	
-	public static ArrayList<String> getComune(int provincia) {
-		
+	public static ArrayList<String> getComune(String provincia) {
+		Utilities.connessione();
+
 		ArrayList<String> listaComuni = null;
 		
 		try {
 			Statement st = con.createStatement();
 			ResultSet rst = st.executeQuery("SELECT * FROM comuni join provincia on provincia.idProvincia = comuni.provinciafk"
-					+ " WHERE idProvincia = " + provincia);
+					+ " WHERE nomeProvincia = '" + provincia + "'");
 			
 			listaComuni = new ArrayList<String>();
 			
@@ -415,11 +438,13 @@ System.out.println(idEnte);
 			e.printStackTrace();
 		}
 		
+		Utilities.close();
 		return listaComuni;
 	}
 	
 	public static ArrayList<String> getRegione() {
-		
+		Utilities.connessione();
+
 		ArrayList<String> regioneList = new ArrayList<String>();
 		
 		try {
@@ -438,6 +463,8 @@ System.out.println(idEnte);
 	}
 	
 	public static ArrayList<String> getProvincia(int regione) {
+		Utilities.connessione();
+
 		ArrayList<String> provinciaLista = new ArrayList<String>();
 		try {
 			Statement st = con.createStatement();
@@ -451,11 +478,14 @@ System.out.println(idEnte);
 			System.out.println("Errore getProvincia");
 			e.printStackTrace();
 		}
-	
+		
+		Utilities.close();
 		return provinciaLista;
 	}
 	
 	public static ArrayList<Evento> filtraEventiPerZona(String filtroRegione, String filtroProvincia, String filtroComune, List<Evento> listaEventi){
+		Utilities.connessione();
+
 		ArrayList<Evento> listaEventiFiltrata = new ArrayList<Evento>();
 		
 		for(int i = 0; i < listaEventi.size(); i++) {
@@ -494,10 +524,12 @@ System.out.println(idEnte);
 			}
 		}
 		
+		Utilities.close();
 		return listaEventiFiltrata;
 	}
 	
-		public static ArrayList<String> getTipo() {
+	public static ArrayList<String> getTipo() {
+		Utilities.connessione();
 		ArrayList<String> listaTipo = new ArrayList<String>();
 		try {
 			Statement st = con.createStatement();
@@ -510,7 +542,8 @@ System.out.println(idEnte);
 			System.out.println("Errore getTipo");
 			e.printStackTrace();
 		}
-	
+		
+		Utilities.close();
 		return listaTipo;
 	}
 }
