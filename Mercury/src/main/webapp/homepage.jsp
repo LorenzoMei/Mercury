@@ -124,9 +124,7 @@ for( int i = 0; i < listaTipo.size(); i++){
 			   %> 
   </div> 
 </div>
-<div class="footer">
-  <h2>Footer</h2>
-</div>
+<div class="footer"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
