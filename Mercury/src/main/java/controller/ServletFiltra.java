@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.plaf.synth.Region;
+
 /**
  * Servlet implementation class ServletFiltra
  */
@@ -44,16 +46,17 @@ public class ServletFiltra extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 				
-		List<Evento> listaEventi = (List<Evento>) request.getAttribute("listaEventi");
+		List<Evento> listaEventi = Utilities.listaEventi();
 		List<Evento> listaEventiFiltrata = new ArrayList<Evento>();
 		
 		//filtro per tipo
 		String tipo = request.getParameter("tipo");
-		
-		if(tipo != null) {
+						
+		if(!tipo.equals("")) {
 			for(int i = 0; i < listaEventi.size(); i++) {
 				if(listaEventi.get(i).getTipo().equals(tipo)) {
 					listaEventiFiltrata.add(listaEventi.get(i));
+					System.out.println("LISTA: " + listaEventiFiltrata.get(i).getNome());
 					listaEventi.set(i, null);
 				}
 			}
@@ -64,17 +67,19 @@ public class ServletFiltra extends HttpServlet {
 		LocalDate dataInizio = null; 
 		LocalDate dataFine = null;
 		
-		if(request.getParameter("dataInizio") != null && request.getParameter("dataFine") != null) {
+		if((!request.getParameter("dataInizio").equals("")) && (!request.getParameter("dataFine").equals(""))) {
 			dataInizio = LocalDate.parse(request.getParameter("dataInizio"));
 			 dataFine = LocalDate.parse(request.getParameter("dataFine"));
 		}
 		
 		if(dataInizio != null && dataFine != null) {
 			for(int i = 0; i < listaEventi.size(); i++) {
-				if((listaEventi.get(i).getDataInizio().isAfter(dataInizio) || listaEventi.get(i).getDataInizio().equals(dataInizio)) && 
-						(listaEventi.get(i).getDataFine().isBefore(dataFine) || listaEventi.get(i).getDataFine().equals(dataFine))) {
-					listaEventiFiltrata.add(listaEventi.get(i));
-					listaEventi.set(i, null);
+				if(listaEventi.get(i) != null) {
+					if((listaEventi.get(i).getDataInizio().isAfter(dataInizio) || listaEventi.get(i).getDataInizio().equals(dataInizio)) && 
+							(listaEventi.get(i).getDataFine().isBefore(dataFine) || listaEventi.get(i).getDataFine().equals(dataFine))) {
+						listaEventiFiltrata.add(listaEventi.get(i));
+						listaEventi.set(i, null);
+					}
 				}
 			}
 		}
@@ -84,15 +89,17 @@ public class ServletFiltra extends HttpServlet {
 		String provincia = request.getParameter("provincia");
 		String comune = request.getParameter("comune");
 		
-		if(listaEventiFiltrata.size() != 0) {
-			listaEventiFiltrata = Utilities.filtraEventiPerZona(regione, provincia, comune, listaEventiFiltrata);
+		if(!(regione.equals("") || regione.equals("Seleziona Regione"))) {
+			if(listaEventiFiltrata.size() != 0) {
+				listaEventiFiltrata = Utilities.filtraEventiPerZona(regione, provincia, comune, listaEventiFiltrata);
+			}
+			else{
+				listaEventiFiltrata = Utilities.filtraEventiPerZona(regione, provincia, comune, listaEventi);
+			}
 		}
-		else{
-			listaEventiFiltrata = Utilities.filtraEventiPerZona(regione, provincia, comune, listaEventi);
-		}
-		
+
 		request.setAttribute("listaEventi", listaEventiFiltrata);
-		
+		request.getRequestDispatcher("homepage.jsp").forward(request, response);
 		
 	}
 
