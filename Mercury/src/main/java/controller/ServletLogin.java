@@ -52,7 +52,9 @@ public class ServletLogin extends HttpServlet {
 		
 		if(utente instanceof Amministratore){
 			List<Ente> listaEnti = Utilities.listaEnti();
+			List<Ente> listaEntiBannati = Utilities.listaEntiBannati();
 			request.setAttribute("listaEnti", listaEnti);
+			request.setAttribute("listaEntiBannati", listaEntiBannati);
 			request.getRequestDispatcher("admin.jsp").forward(request, response);
 		}
 		else if(utente instanceof Ente) {

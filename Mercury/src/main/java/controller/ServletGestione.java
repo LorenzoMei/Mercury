@@ -12,6 +12,7 @@ import model.Utilities;
 import model.Zona;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
@@ -35,9 +36,34 @@ public class ServletGestione extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		PrintWriter out = response.getWriter();
+		List<Ente> listaEnti = Utilities.listaEnti();
+		request.setAttribute("listaEnti", listaEnti);
+		List<Ente> listaEntiBannati = Utilities.listaEntiBannati();
+		request.setAttribute("listaEntiBannati", listaEntiBannati);
+		int operazione = 0;
+		if(request.getParameter("operazione") != null) {
+			operazione = Integer.parseInt(request.getParameter("operazione"));
+		}
 		
-		Utilities.bannaEnte((String) request.getParameter("email"));
-		request.getRequestDispatcher("ServletEventi?operazione=0").forward(request, response);
+		switch(operazione) {
+			case 3:
+				Utilities.sbannaEnte((String) request.getParameter("email"));
+				out.println("Ente Sbannato");
+				response.sendRedirect("ServletGestione");
+				break;
+				
+			case 4:
+				Utilities.bannaEnte((String) request.getParameter("email"));
+				out.println("Ente Bannato");
+				response.sendRedirect("ServletGestione");
+				break;
+				
+			default:
+				request.getRequestDispatcher("admin.jsp").forward(request, response);
+				break;
+		}
+		
 	}
 
 	/**
@@ -47,6 +73,10 @@ public class ServletGestione extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		int operazione = Integer.parseInt(request.getParameter("operazione"));
+		List<Ente> listaEnti = Utilities.listaEnti();
+		request.setAttribute("listaEnti", listaEnti);
+		List<Ente> listaEntiBannati = Utilities.listaEntiBannati();
+		request.setAttribute("listaEntiBannati", listaEntiBannati);
 		
 		switch(operazione) {
 			case 1:
@@ -84,6 +114,17 @@ public class ServletGestione extends HttpServlet {
 				request.getRequestDispatcher("ServletEventi?operazione=0").forward(request, response);
 				
 				break;
+			case 3:
+				Utilities.sbannaEnte((String) request.getParameter("email"));
+				request.getRequestDispatcher("admin.jsp").forward(request, response);
+				break;
+				
+			case 4:
+				Utilities.bannaEnte((String) request.getParameter("email"));
+				request.getRequestDispatcher("admin.jsp").forward(request, response);
+				break;
+				
+			
 		}
 	}
 
