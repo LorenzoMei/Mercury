@@ -27,24 +27,24 @@
 
   <div class="sidebar">
 
-  <form method="get" action="">
+  <form method="post" action="ServletFiltra">
   
   <label for="filtroZona"> 
   	<input type="checkbox" id="checkFiltroZona" name="checkFiltroZona"> Filtra per zona:
   </label>
   <div class="regioneDiv" id="regioneDiv">
                     <div class="input-field">
-                        <select id="regione">
+                        <select id="regione" name="regione">
                             <option>Seleziona Regione</option>
                         </select>
                     </div>
                     <div class="input-field">
-                        <select id="provincia">
+                        <select id="provincia" name="provincia">
                             <option>Seleziona Provincia</option>
                         </select>
                     </div>
                     <div class="input-field">
-                        <select id="comune">
+                        <select id="comune" name="comune">
                             <option>Seleziona Comune</option>
                         </select>
                     </div>
@@ -58,14 +58,14 @@
   
   <div class="tipoDiv" id="tipoDiv">
 	<label for="tipologia">Tipologia:<br>
-	<select name="tipologia">
-<%
-Utilities.connessione();
-ArrayList<String> listaTipo = Utilities.getTipo();
-for( int i = 0; i < listaTipo.size(); i++){
-	out.println("<option value=\""+listaTipo.get(i)+"\">" + listaTipo.get(i) + "</option>" );
-}
-%>	
+	<select name="tipo">
+		<option value="">-</option>
+	<%
+	ArrayList<String> listaTipo = Utilities.getTipo();
+	for( int i = 0; i < listaTipo.size(); i++){
+		out.println("<option value=\""+listaTipo.get(i)+"\">" + listaTipo.get(i) + "</option>" );
+	}
+	%>	
 
 	</select>
 	</label>
@@ -82,12 +82,6 @@ for( int i = 0; i < listaTipo.size(); i++){
 	<label for="dataFine"> Data fine:
 		<input type=date id=today2 name="dataFine" min="2015-01-01" max="2030-12-31">
 	</label>
-	<script>
-		document.getElementById('today').value = new Date().toISOString().substring(0, 10);
-	</script>
-		<script>
-		document.getElementById('today2').value = new Date().toISOString().substring(0, 10);
-	</script>
   </div>
   <br>
   <div class="buttonFiltro">
@@ -124,7 +118,9 @@ for( int i = 0; i < listaTipo.size(); i++){
 			   %> 
   </div> 
 </div>
-
+<div class="footer">
+  
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
@@ -137,7 +133,7 @@ for( int i = 0; i < listaTipo.size(); i++){
                         let obj = $.parseJSON(data);
                         var i=0;
                         $.each(obj, function (key,value) {
-                            $('#regione').append('<option value="' + ++i + '">' + value + '</option>')
+                            $('#regione').append('<option value="' + value + '">' + value + '</option>')
                         });
                         $('select').formSelect();
                     },
@@ -165,7 +161,7 @@ for( int i = 0; i < listaTipo.size(); i++){
                             let obj = $.parseJSON(data);
                             var i=0;
                             $.each(obj, function (key, value) {
-                                $('#provincia').append('<option value="' + ++i + '">' + value + '</option>')
+                                $('#provincia').append('<option value="' + value + '">' + value + '</option>')
                             });
                             $('select').formSelect();
                         },
@@ -193,7 +189,7 @@ for( int i = 0; i < listaTipo.size(); i++){
                             let obj = $.parseJSON(data);
                             var i=0;
                             $.each(obj, function (key, value) {
-                                $('#comune').append('<option value="' + ++i + '">' + value + '</option>')
+                                $('#comune').append('<option value="' + value + '">' + value + '</option>')
                             });
                             $('select').formSelect();
                         },
