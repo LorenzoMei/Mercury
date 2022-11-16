@@ -23,7 +23,7 @@ public class Utilities {
 		try {
 	    	Class.forName("com.mysql.cj.jdbc.Driver");
 	    	String url ="jdbc:mysql://127.0.0.1/mercurydb";
-	    	con = DriverManager.getConnection(url, "root", "admin");
+	    	con = DriverManager.getConnection(url, "root", "root");
 		}
 	    catch(ClassNotFoundException e) {
 	    	System.out.println("errore");
@@ -197,6 +197,31 @@ public class Utilities {
 		
 	}
 	
+	public static void sbannaEnte(String email) {
+		Utilities.connessione();
+
+		try {
+			Statement st = con.createStatement();
+			ResultSet rst = st.executeQuery("SELECT idEnte FROM ente join utente on "
+					+ "ente.utenteFk = utente.idUtente WHERE email = '" + email +"'");
+			
+			if(rst.next()) {
+				int n = st.executeUpdate("UPDATE ente SET stato = 'attivo' WHERE idEnte = " 
+						+ Integer.toString(rst.getInt("idEnte")));
+				
+			}
+			else {
+				System.out.println("Ente non esistente");
+			}
+						
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Utilities.close();
+		
+	}
+	
 	public static Object login(String email, String password) {
 		Utilities.connessione();
 	    
@@ -274,6 +299,34 @@ public class Utilities {
 		return listaEnti;
 	}
 	
+	public static List<Ente> listaEntiBannati(){
+		Utilities.connessione();
+
+		List<Ente> listaEnti = null;
+		try {
+			Statement st = con.createStatement();
+			ResultSet rst = st.executeQuery("SELECT * FROM ente join utente on ente.utenteFk = utente.idUtente WHERE stato = 'bannato'");
+			
+			listaEnti = new ArrayList<Ente>();
+			
+			while(rst.next()) {
+				String email = rst.getString("email");			
+				String nomeEnte = rst.getString("nomeEnte");
+				String nomeResponsabile = rst.getString("nome");
+				String cognomeResponsabile = rst.getString("cognome");
+				Ente ente = new Ente(email, nomeEnte, nomeResponsabile, cognomeResponsabile);
+				
+				listaEnti.add(ente);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Utilities.close();
+		return listaEnti;
+	}
+	
 	public static void aggiungiEvento(Evento evento) {
 		Utilities.connessione();
 
@@ -289,6 +342,7 @@ public class Utilities {
 						+ "provinciafk =" + evento.getZona().getProvincia() + " AND comunefk=" + evento.getZona().getComune() );	
 			
 			while(rst.next()) { idZona = rst.getInt("idZona");}
+
 			
 			
 		} catch (SQLException e) {
@@ -297,12 +351,11 @@ public class Utilities {
 		}
 			//ESTRAPOLA idEnte
 			try {
-				System.out.println("ENTE: " + evento.getEnte().getNomeEnte());
-	 	        ResultSet rst = st.executeQuery("SELECT idEnte from ente join utente on ente.utentefk = utente.idUtente "
-	 	        		+ "where email ='" + evento.getEnte().getEmail()+ "'");
+	 	        ResultSet rst = st.executeQuery("SELECT idEnte FROM mercurydb.ente join mercurydb.utente on ente.utenteFk = utente.idUtente \r\n"
+	 	        		+ "where email = '" + evento.getEnte().getEmail() +"'");
 	 	        
 	 	       while(rst.next()) { idEnte = rst.getInt("idEnte");}
-	 	       				
+				
 			} catch (SQLException e) {
 				 System.out.println(" errore estrapolazione id utente");
 		    	   e.printStackTrace();
@@ -312,7 +365,7 @@ public class Utilities {
 			//inserimento evento nella tabella  
 			String queryIns = "INSERT into evento (nome, descrizione, tipo, dataInizio, dataFine, zonaFK, enteFK) " + 
 			                   "VALUES ('" + evento.getNome() + "','" + evento.getDescrizione() + "','" + evento.getTipo() 
-			                   + "','"+ evento.getDataInizio() + "','" + evento.getDataFine() + "'," + Integer.toString(idZona) + ", " + Integer.toString(idEnte) + ")";
+			                   + "','"+ evento.getDataInizio() + "','" + evento.getDataFine() + "'," + idZona + "," + idEnte + ")";
 			st.executeUpdate(queryIns);
 			
 		} catch (SQLException e) {
@@ -453,7 +506,7 @@ public class Utilities {
 		
 		try {
 			Statement st = con.createStatement();
-			String query = "select nomeRegione from regioni";
+			String query = "select nomeRegione from regioni where nomeRegione != '0'";
 		ResultSet rst = st.executeQuery(query);
 		
 		while(rst.next()) {
