@@ -290,9 +290,6 @@ public class Utilities {
 			
 			while(rst.next()) { idZona = rst.getInt("idZona");}
 			
-			System.out.println("ZONA: " + idZona);
-
-			
 			
 		} catch (SQLException e) {
 			System.out.println("Errore estrapolazione idzona");
@@ -302,18 +299,15 @@ public class Utilities {
 			try {
 				System.out.println("ENTE: " + evento.getEnte().getNomeEnte());
 	 	        ResultSet rst = st.executeQuery("SELECT idEnte from ente join utente on ente.utentefk = utente.idUtente "
-	 	        		+ "where email ='" + evento.getEnte().getNomeEnte()+ "'");
+	 	        		+ "where email ='" + evento.getEnte().getEmail()+ "'");
 	 	        
 	 	       while(rst.next()) { idEnte = rst.getInt("idEnte");}
-	 	       
-	 	      System.out.println("ENTE: " + idEnte);
-				
+	 	       				
 			} catch (SQLException e) {
 				 System.out.println(" errore estrapolazione id utente");
 		    	   e.printStackTrace();
 			}
 			
-System.out.println(idEnte);
 
 			//inserimento evento nella tabella  
 			String queryIns = "INSERT into evento (nome, descrizione, tipo, dataInizio, dataFine, zonaFK, enteFK) " + 
