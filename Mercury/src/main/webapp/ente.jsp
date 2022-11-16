@@ -32,7 +32,7 @@
 	<h3>FORM AGGIUNTA EVENTI</h3>
 	<br><br><br>
 	<label for="nomeEvento"> Nome Evento:
-		<input type="text" id="nomeEvento" name="nomeEvento"><br>
+		<input type="text" id="nomeEvento" name="nomeEvento" required><br>
 	</label>
 	<br>
 	<label for="tipoEvento">Tipologia Evento:
@@ -56,7 +56,7 @@
                 <div class="divider"></div>
                 
                     <div class="input-field">
-                        <select id="regione" name="regione">
+                        <select id="regione" name="regione" required>
                             <option>Seleziona Regione</option>
                         </select>
                     </div>
@@ -88,7 +88,7 @@
 	</label>
 	<br><br>
 	<label for="descrizioneEvento"> Descrizione Evento:
-		  <textarea id="descrizioneEvento" name="descrizioneEvento" rows="4" cols="65"></textarea>
+		  <textarea id="descrizioneEvento" name="descrizioneEvento" rows="4" cols="65" required></textarea>
 	</label>
 	<br><br>
 	<input type="submit" value="Aggiungi">
