@@ -23,7 +23,7 @@ public class Utilities {
 		try {
 	    	Class.forName("com.mysql.cj.jdbc.Driver");
 	    	String url ="jdbc:mysql://127.0.0.1/mercurydb";
-	    	con = DriverManager.getConnection(url, "root", "250122");
+	    	con = DriverManager.getConnection(url, "root", "admin");
 		}
 	    catch(ClassNotFoundException e) {
 	    	System.out.println("errore");
@@ -289,6 +289,8 @@ public class Utilities {
 						+ "provinciafk =" + evento.getZona().getProvincia() + " AND comunefk=" + evento.getZona().getComune() );	
 			
 			while(rst.next()) { idZona = rst.getInt("idZona");}
+			
+			System.out.println("ZONA: " + idZona);
 
 			
 			
@@ -298,9 +300,13 @@ public class Utilities {
 		}
 			//ESTRAPOLA idEnte
 			try {
-	 	        ResultSet rst = st.executeQuery("SELECT idEnte from ente where nomeEnte ='" + evento.getEnte().getNomeEnte()+ "'");
+				System.out.println("ENTE: " + evento.getEnte().getNomeEnte());
+	 	        ResultSet rst = st.executeQuery("SELECT idEnte from ente join utente on ente.utentefk = utente.idUtente "
+	 	        		+ "where email ='" + evento.getEnte().getNomeEnte()+ "'");
 	 	        
 	 	       while(rst.next()) { idEnte = rst.getInt("idEnte");}
+	 	       
+	 	      System.out.println("ENTE: " + idEnte);
 				
 			} catch (SQLException e) {
 				 System.out.println(" errore estrapolazione id utente");
@@ -312,7 +318,7 @@ System.out.println(idEnte);
 			//inserimento evento nella tabella  
 			String queryIns = "INSERT into evento (nome, descrizione, tipo, dataInizio, dataFine, zonaFK, enteFK) " + 
 			                   "VALUES ('" + evento.getNome() + "','" + evento.getDescrizione() + "','" + evento.getTipo() 
-			                   + "','"+ evento.getDataInizio() + "','" + evento.getDataFine() + "',3 , 1);";
+			                   + "','"+ evento.getDataInizio() + "','" + evento.getDataFine() + "'," + Integer.toString(idZona) + ", " + Integer.toString(idEnte) + ")";
 			st.executeUpdate(queryIns);
 			
 		} catch (SQLException e) {
