@@ -52,11 +52,11 @@ public class ServletFiltra extends HttpServlet {
 		//filtro per tipo
 		String tipo = request.getParameter("tipo");
 						
+		
 		if(!tipo.equals("")) {
 			for(int i = 0; i < listaEventi.size(); i++) {
 				if(listaEventi.get(i).getTipo().equals(tipo)) {
 					listaEventiFiltrata.add(listaEventi.get(i));
-					System.out.println("LISTA: " + listaEventiFiltrata.get(i).getNome());
 					listaEventi.set(i, null);
 				}
 			}
