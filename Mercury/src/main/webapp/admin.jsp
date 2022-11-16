@@ -37,7 +37,9 @@
                     <td><%out.println(e.getCognomeResponsabile()); %></td>
                     
                      <td>
-                     <a href="ServletGestione?email=<% out.println(e.getEmail()); %>">Banna</a>                     
+                     <a href="ServletGestione?email=<% out.println(e.getEmail()); %>&operazione=4">
+                    	Banna Ente
+						</a>                      
                     </td>
                 </tr>
             	<%
@@ -48,6 +50,46 @@
 
 </div>
 <br>
+<hr>
+<div id="listaEntiBannati">
+<div class="boxLista">
+	<h2>Lista degli Enti Bannati</h2>
+		<table border="1">
+            
+            <tr>
+		<th width=10%>Email</th>
+                <th width=10%>Nome Ente</th>
+                <th width=10%>Nome Responsabile</th>
+                <th width=10%>Cognome Responsabile</th>
+                <th width=10%>Azione</th>
+            </tr>
+            
+            <%
+            List<Ente> entiBannati = (List<Ente>)request.getAttribute("listaEntiBannati");
+            
+            for(Ente e : entiBannati){
+            	%>
+            
+            <tr>
+            		<td><% out.println(e.getEmail()); %></td>
+                    <td><% out.println(e.getNomeEnte()); %></td>
+                    <td><% out.println(e.getNomeResponsabile()); %></td>
+                    <td><%out.println(e.getCognomeResponsabile()); %></td>
+                    
+                     <td>
+                          
+						<a href="ServletGestione?email=<% out.println(e.getEmail()); %>&operazione=3">
+                    	Togli il Ban
+						</a>                
+                    </td>
+                </tr>
+            	<%
+            }
+            %>
+        </table>
+	</div>
+
+</div>
 <footer>
 <form action="ServletEventi">
 <input type="submit" value="HOME">
