@@ -44,7 +44,7 @@
 </div>
 <br>
 <footer>
-<form action="http://localhost:8080/Mercury">
+<form action="ServletEventi">
 <input type="submit" value="HOME">
 </form>
 </footer>

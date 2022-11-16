@@ -37,6 +37,7 @@ public class ServletGestione extends HttpServlet {
 		// TODO Auto-generated method stub
 		
 		Utilities.bannaEnte((String) request.getParameter("email"));
+		request.getRequestDispatcher("ServletEventi?operazione=0").forward(request, response);
 	}
 
 	/**
