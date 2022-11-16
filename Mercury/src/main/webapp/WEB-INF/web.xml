@@ -36,6 +36,16 @@
   </servlet-mapping>
   <servlet>
     <description></description>
+    <display-name>ServletAggiungiEvento</display-name>
+    <servlet-name>ServletAggiungiEvento</servlet-name>
+    <servlet-class>controller.ServletAggiungiEvento</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletAggiungiEvento</servlet-name>
+    <url-pattern>/ServletAggiungiEvento</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
     <display-name>ServletFiltro</display-name>
     <servlet-name>ServletFiltro</servlet-name>
     <servlet-class>controller.ServletFiltro</servlet-class>
@@ -44,4 +54,5 @@
     <servlet-name>ServletFiltro</servlet-name>
     <url-pattern>/ServletFiltro</url-pattern>
   </servlet-mapping>
+  
 </web-app>

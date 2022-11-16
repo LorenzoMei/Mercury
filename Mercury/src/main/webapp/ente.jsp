@@ -1,3 +1,4 @@
+<%@page import="model.Ente"%>
 <%@page import="model.Utilities"%>
 <%@page language="java" import="java.util.*" %>
 
@@ -23,7 +24,8 @@
 
 <div class="aggiunta" id="absoluteCenteredDiv">
             <div class="drop-down-list card">
-            <form method="get" action="ServletEventi?operazione=2">
+            <% Ente e = (Ente) request.getAttribute("ente");%>
+            <form method="post" action="ServletAggiungiEvento?email=<% out.println(e.getEmail()); %>&nomeEnte= <%out.println(e.getNomeEnte());%>">
             
             
 
@@ -34,33 +36,37 @@
 	</label>
 	<br>
 	<label for="tipoEvento">Tipologia Evento:
-	<% ArrayList<String> tipi = Utilities.getTipo(); %>
-	<select name="tipo">
-	<%
-	 for(String s : tipi){
+	<% ArrayList<String> tipi = new ArrayList<String>(); 
+		tipi.add("teatro");
+		tipi.add("mostra");
+		tipi.add("film");
+		tipi.add("concerto");
+		tipi.add("sagra");
 		%>
+		<select name="tipo">
+		<% for(String s : tipi){
+			%>	
 		<option value="<%out.print(s);%>"><% out.print(s); %></option>
-		<% 
-	 }
+		<%
+		}
 	%>
 	</select>
 	</label>
-	<br><br>
-                
+	<br><br>        
                 <div class="divider"></div>
                 
                     <div class="input-field">
-                        <select id="regione">
+                        <select id="regione" name="regione">
                             <option>Seleziona Regione</option>
                         </select>
                     </div>
                     <div class="input-field">
-                        <select id="provincia">
+                        <select id="provincia" name="provincia">
                             <option>Seleziona Provincia</option>
                         </select>
                     </div>
                     <div class="input-field">
-                        <select id="comune">
+                        <select id="comune" name="comune">
                             <option>Seleziona Comune</option>
                         </select>
                     </div>
@@ -98,7 +104,7 @@
         <script type="text/javascript">
             $(document).ready(function () {
                 $.ajax({
-                    url: "ServletFiltro",
+                    url: "ServletAggiungiEvento",
                     method: "GET",
                     data: {operation: 'regione'},
                     success: function (data, textStatus, jqXHR) {
@@ -106,7 +112,7 @@
                         let obj = $.parseJSON(data);
                         var i=0;
                         $.each(obj, function (key,value) {
-                            $('#regione').append('<option value="' + ++i + '">' + value + '</option>')
+                            $('#regione').append('<option value="' + value + '">' + value + '</option>')
                         });
                         $('select').formSelect();
                     },
@@ -130,7 +136,7 @@
                     };
 
                     $.ajax({
-                        url: "ServletFiltro",
+                        url: "ServletAggiungiEvento",
                         method: "GET",
                         data: data,
                         success: function (data, textStatus, jqXHR) {
@@ -138,7 +144,7 @@
                             let obj = $.parseJSON(data);
                             var i=0;
                             $.each(obj, function (key, value) {
-                                $('#provincia').append('<option value="' + ++i + '">' + value + '</option>')
+                                $('#provincia').append('<option value="' + value + '">' + value + '</option>')
                             });
                             $('select').formSelect();
                         },
@@ -160,7 +166,7 @@
                     };
 
                     $.ajax({
-                        url: "ServletFiltro",
+                        url: "ServletAggiungiEvento",
                         method: "GET",
                         data: data,
                         success: function (data, textStatus, jqXHR) {
@@ -168,7 +174,7 @@
                             let obj = $.parseJSON(data);
                             var i=0;
                             $.each(obj, function (key, value) {
-                                $('#comune').append('<option value="' + ++i + '">' + value + '</option>')
+                                $('#comune').append('<option value="' + value + '">' + value + '</option>')
                             });
                             $('select').formSelect();
                         },

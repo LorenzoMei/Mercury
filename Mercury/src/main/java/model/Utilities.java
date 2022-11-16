@@ -1,5 +1,9 @@
 package model;
 
+import java.util.Properties;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -10,10 +14,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 public class Utilities {
 	private static Connection con;
@@ -23,7 +23,7 @@ public class Utilities {
 		try {
 	    	Class.forName("com.mysql.cj.jdbc.Driver");
 	    	String url ="jdbc:mysql://127.0.0.1/mercurydb";
-	    	con = DriverManager.getConnection(url, "root", "admin");
+	    	con = DriverManager.getConnection(url, "root", "250122");
 		}
 	    catch(ClassNotFoundException e) {
 	    	System.out.println("errore");
@@ -554,6 +554,7 @@ System.out.println(idEnte);
 		return provinciaLista;
 	}
 	
+	
 	public static ArrayList<Evento> filtraEventiPerZona(String filtroRegione, String filtroProvincia, String filtroComune, List<Evento> listaEventi){
 		Utilities.connessione();
 
@@ -617,54 +618,55 @@ System.out.println(idEnte);
 		Utilities.close();
 		return listaTipo;
 	}
-// sito host controllo: https://www.wpoven.com/tools/free-smtp-server-for-testing
-public static void email(NewsLetter lettera) {
-		
-		String emailDestinatario = lettera.getUtente().getEmail();
-		String emailMittente = "ciaociao@ciaociao.com";
-		String host = "smtp.freesmtpservers.com";
-		
-		String oggetto="NewsLetter lista Eventi";
-		String testo= "";
-		
-		for(int i = 0; i < lettera.getEventi().size(); i++) {
-		Evento e =lettera.getEventi().get(i);
-		String evento = "Nome Evento: " + e.getNome() +", tipo Evento: "+ e.getTipo() + ", descrizione: "+ e.getDescrizione() + 
-				", Zona: " + e.getZona() + ", data inizio e fine : " + e.getDataInizio() + "---" 
-				+ e.getDataFine() + ", nome Ente: " +e.getEnte().getNomeEnte() + "\r" ;
-		testo = testo + evento;
-		}
-		
-		System.out.println(testo);
-		
-		
-		
-		Properties p = new Properties();
-		
-		p.put("mail.smtp.host", host);
-		p.put("port",25);
-		p.put("mail.smtp.starttls.enable", "true");
-		
-		Session sessione = Session.getDefaultInstance(p);
-		
-		MimeMessage mail = new MimeMessage (sessione);
+	
+	// sito host controllo: https://www.wpoven.com/tools/free-smtp-server-for-testing
+	public static void email(NewsLetter lettera) {
+			
+			String emailDestinatario = lettera.getUtente().getEmail();
+			String emailMittente = "ciaociao@ciaociao.com";
+			String host = "smtp.freesmtpservers.com";
+			
+			String oggetto="NewsLetter lista Eventi";
+			String testo= "";
+			
+			for(int i = 0; i < lettera.getEventi().size(); i++) {
+			Evento e =lettera.getEventi().get(i);
+			String evento = "Nome Evento: " + e.getNome() +", tipo Evento: "+ e.getTipo() + ", descrizione: "+ e.getDescrizione() + 
+					", Zona: " + e.getZona() + ", data inizio e fine : " + e.getDataInizio() + "---" 
+					+ e.getDataFine() + ", nome Ente: " +e.getEnte().getNomeEnte() + "\r" ;
+			testo = testo + evento;
+			}
+			
+			System.out.println(testo);
+			
+			
+			
+			Properties p = new Properties();
+			
+			p.put("mail.smtp.host", host);
+			p.put("port",25);
+			p.put("mail.smtp.starttls.enable", "true");
+			
+			Session sessione = Session.getDefaultInstance(p);
+			
+			MimeMessage mail = new MimeMessage (sessione);
 
-		   
-		try {
-			mail.setFrom(new InternetAddress(emailMittente));
-			mail.addRecipients(Message.RecipientType.TO, emailDestinatario);
-			
-			mail.setSubject(oggetto);
-			mail.setText(testo);
-			
-			Transport.send(mail);
-			
-			System.out.println("l'email è stato inviato");
-			
-			
-		} catch (Exception e) {
-			System.out.println("si è verificato un errore");
-			e.printStackTrace();
+			   
+			try {
+				mail.setFrom(new InternetAddress(emailMittente));
+				mail.addRecipients(Message.RecipientType.TO, emailDestinatario);
+				
+				mail.setSubject(oggetto);
+				mail.setText(testo);
+				
+				Transport.send(mail);
+				
+				System.out.println("l'email è stato inviato");
+				
+				
+			} catch (Exception e) {
+				System.out.println("si è verificato un errore");
+				e.printStackTrace();
+			}
 		}
-	}
 }

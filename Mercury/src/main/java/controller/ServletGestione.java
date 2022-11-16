@@ -59,7 +59,7 @@ public class ServletGestione extends HttpServlet {
 				Ente ente = new Ente(email, password, nomeEnte, nomeResponsabile, cognomeResponsabile);
 				Utilities.aggiungiEnte(ente);
 				
-				request.getRequestDispatcher("homepage.jsp").forward(request, response);
+				request.getRequestDispatcher("ServletEventi").forward(request, response);
 				break;
 			case 2:
 				String emailNews = (String) request.getParameter("emailNews");
