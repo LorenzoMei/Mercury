@@ -96,7 +96,7 @@ public class ServletAggiungiEvento extends HttpServlet {
 			String nomeEnte = (String) request.getParameter("nomeEnte");
 			String email = (String) request.getParameter("email");
 			
-			Ente ente = new Ente(nomeEnte, email);
+			Ente ente = new Ente(email, nomeEnte);
 			
 			Evento evento = new Evento(nome, descrizione, zona, tipo, dataInizio, dataFine, ente);
 			Utilities.aggiungiEvento(evento);
