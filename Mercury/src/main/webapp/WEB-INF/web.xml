@@ -54,5 +54,15 @@
     <servlet-name>ServletFiltro</servlet-name>
     <url-pattern>/ServletFiltro</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletFiltra</display-name>
+    <servlet-name>ServletFiltra</servlet-name>
+    <servlet-class>controller.ServletFiltra</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletFiltra</servlet-name>
+    <url-pattern>/ServletFiltra</url-pattern>
+  </servlet-mapping>
   
 </web-app>
