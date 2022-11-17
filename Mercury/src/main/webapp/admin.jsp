@@ -85,10 +85,11 @@
             %>
         </table>
 	</div>
+	<br><br>
 <footer>
 <form action="ServletEventi">
 <input type="submit" value="HOME">
 </form>
-</footer>
+</footer> <br>
 </body>
 </html>
