@@ -9,18 +9,14 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link rel="stylesheet" href="css/styleHome.css">
         <style type="text/css">
-            body{
-            	background: #1abc9c;
-            }
+            
             .drop-down-list{
+            	background-color: #00ff40;
                 margin: 150px auto;
                 width: 50%;
                 padding: 30px;
+             
             }
-	    .button{
-	  margin-left:44%;
-	  width:12%
-	    }
         </style>
 
 </head>
@@ -28,8 +24,9 @@
 
 <div class="aggiunta" id="absoluteCenteredDiv">
             <div class="drop-down-list card">
-            <% Ente e = (Ente) request.getAttribute("ente");%>
-            <form method="post" action="ServletAggiungiEvento?email=<% out.println(e.getEmail()); %>&nomeEnte= <%out.println(e.getNomeEnte());%>">
+            <% String nomeEnte = (String) request.getParameter("nomeEnte");
+			String email = (String) request.getParameter("email");%>
+            <form method="post" action="ServletAggiungiEvento?email=<% out.println(nomeEnte); %>&nomeEnte= <%out.println(email);%>">
             
             
 
@@ -95,7 +92,7 @@
 		  <textarea id="descrizioneEvento" name="descrizioneEvento" rows="4" cols="65" required></textarea>
 	</label>
 	<br><br>
-	<input type="submit" value="Aggiungi" class="button">
+	<input type="submit" value="Aggiungi">
 	
 	</form>
 	</div>
