@@ -37,17 +37,17 @@
   </label>
   <div class="regioneDiv" id="regioneDiv">
                     <div class="input-field">
-                        <select id="regione" name="regione">
+                        <select id="regione" name="regione" style=width:70%>
                             <option>Seleziona Regione</option>
                         </select>
                     </div>
                     <div class="input-field">
-                        <select id="provincia" name="provincia">
+                        <select id="provincia" name="provincia" style=width:70%>
                             <option>Seleziona Provincia</option>
                         </select>
                     </div>
                     <div class="input-field">
-                        <select id="comune" name="comune">
+                        <select id="comune" name="comune" style=width:70%>
                             <option>Seleziona Comune</option>
                         </select>
                     </div>
