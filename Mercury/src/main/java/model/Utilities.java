@@ -518,8 +518,8 @@ public class Utilities {
 		
 		try {
 			Statement st = con.createStatement();
-			ResultSet rst = st.executeQuery("SELECT * FROM comuni join provincia on provincia.idProvincia = comuni.provinciafk"
-					+ " WHERE nomeProvincia = '" + provincia + "'");
+			ResultSet rst = st.executeQuery("SELECT comune FROM comuni join provincia on provincia.idProvincia = comuni.provinciafk"
+					+ " WHERE nomeProvincia = '" + provincia + "' ORDER BY comune ASC");
 			
 			listaComuni = new ArrayList<String>();
 			
@@ -586,7 +586,7 @@ public class Utilities {
 		
 		try {
 			Statement st = con.createStatement();
-			String query = "select nomeRegione from regioni where nomeRegione != '0'";
+			String query = "select nomeRegione from regioni where nomeRegione != '0' ORDER BY nomeRegione ASC";
 		ResultSet rst = st.executeQuery(query);
 		
 		while(rst.next()) {
@@ -672,8 +672,8 @@ public class Utilities {
 		ArrayList<String> provinciaLista = new ArrayList<String>();
 		try {
 			Statement st = con.createStatement();
-			ResultSet rst = st.executeQuery("SELECT * from provincia join regioni on provincia.regionefk = regioni.idRegioni WHERE "
-					+ "nomeRegione = '"+ regione + "'");
+			ResultSet rst = st.executeQuery("SELECT nomeProvincia from provincia join regioni on provincia.regionefk = regioni.idRegioni WHERE "
+					+ "nomeRegione = '"+ regione + "' ORDER BY nomeProvincia ASC");
 						
 			while(rst.next()) {
 				provinciaLista.add(rst.getString("nomeProvincia"));}
