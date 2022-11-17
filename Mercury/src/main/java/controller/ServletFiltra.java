@@ -89,7 +89,7 @@ public class ServletFiltra extends HttpServlet {
 		String provincia = request.getParameter("provincia");
 		String comune = request.getParameter("comune");
 		
-		if(!(regione.equals("") || regione.equals("Seleziona Regione"))) {
+		if(!(regione.equals("0"))) {
 			if(listaEventiFiltrata.size() != 0) {
 				listaEventiFiltrata = Utilities.filtraEventiPerZona(regione, provincia, comune, listaEventiFiltrata);
 			}
