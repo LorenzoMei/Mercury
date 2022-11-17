@@ -9,14 +9,18 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
         <link rel="stylesheet" href="css/styleHome.css">
         <style type="text/css">
-            
+            body{
+            	background: #1abc9c;
+            }
             .drop-down-list{
-            	background-color: #00ff40;
                 margin: 150px auto;
                 width: 50%;
                 padding: 30px;
-             
             }
+            .button{
+	  margin-left:44%;
+	  width:12%
+	}
         </style>
 
 </head>
@@ -92,7 +96,7 @@
 		  <textarea id="descrizioneEvento" name="descrizioneEvento" rows="4" cols="65" required></textarea>
 	</label>
 	<br><br>
-	<input type="submit" value="Aggiungi">
+	<input type="submit" value="Aggiungi" class="button">
 	
 	</form>
 	</div>
