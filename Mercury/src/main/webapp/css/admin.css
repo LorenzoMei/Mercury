@@ -17,29 +17,21 @@
  }
 
 #listaEnti{
- 	position: absolute;
  	overflow-y:auto;
-    top:0;
     margin: auto;
-    width:auto;
-    height: 45%;
     text-align: center;
 }
 
 #listaEntiBannati{
- 	position: absolute;
  	overflow-y:auto;
- 	top:40%;
     margin: auto;
-    width:auto;
-    height: 45%;
     text-align: center;
 }
 
  .boxLista{
    background:white;
-   top:0;
-   width:auto;
+   width:85%;
+   height: auto;
    border-radius:6px;
    margin: auto;
    padding:0px 0px 30% 0px;
@@ -48,8 +40,8 @@
  
   .boxLista1{
    background:white;
-   top:30%;
-   width:auto;
+   width:85%;
+   height: auto;
    border-radius:6px;
    margin: auto;
    padding:0px 0px 30% 0px;
