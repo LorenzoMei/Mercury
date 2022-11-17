@@ -50,7 +50,7 @@ body {
   background-color: #111;
   padding-top: 15px;
 }
-.sidebar label {
+label {
   display: block;
   padding: 6px 8px 6px 16px;
   font-size: 18px;
