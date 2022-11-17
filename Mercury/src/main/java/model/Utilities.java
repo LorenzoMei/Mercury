@@ -658,15 +658,34 @@ public class Utilities {
 		for(int i = 0; i < listaEventi.size(); i++) {
 			try {
 				Statement st = con.createStatement();
-				ResultSet rst = st.executeQuery("SELECT * FROM comuni join provincia on comuni.provinciafk = provincia.idProvincia join "
-						+ "regioni on provincia.regionefk = regioni.idRegioni WHERE idRegioni = " + Integer.toString(listaEventi.get(i).getZona().getRegione())
-						+ " AND idProvincia = " + Integer.toString(listaEventi.get(i).getZona().getProvincia()) + " AND "
-						+ "idComuni = " + Integer.toString(listaEventi.get(i).getZona().getComune()));
+				String query = "SELECT * FROM comuni join provincia on comuni.provinciafk = provincia.idProvincia join "
+						+ "regioni on provincia.regionefk = regioni.idRegioni ";
+				
+				if(!filtroRegione.equals("Seleziona Regione")) {
+					query += "WHERE idRegioni = " + Integer.toString(listaEventi.get(i).getZona().getRegione());
+					
+					if(!filtroProvincia.equals("Seleziona Provincia")) {
+						query += " AND idProvincia = " + Integer.toString(listaEventi.get(i).getZona().getProvincia());
+						
+						if(!filtroComune.equals("Seleziona Comune")) {
+							
+							query += " AND idComuni = " + Integer.toString(listaEventi.get(i).getZona().getComune());
+						}
+						else {
+							query += " AND idProvincia = " + Integer.toString(listaEventi.get(i).getZona().getProvincia()) + " GROUP BY nomeRegione";
+						}
+					}
+					else {
+						query += "WHERE idRegioni = " + Integer.toString(listaEventi.get(i).getZona().getRegione()) + " GROUP BY nomeRegione";
+					}
+				}
+				
+				ResultSet rst = st.executeQuery(query);
 				
 				while(rst.next()) {
-					if(filtroRegione != null) {
-						if(filtroProvincia != null) {
-							if(filtroComune != null) {
+					if(!filtroRegione.equals("Seleziona Regione")) {						
+						if(!filtroProvincia.equals("Seleziona Provincia")) {
+							if(!filtroComune.equals("Seleziona Comune")) {
 								if(rst.getString("nomeRegione").equals(filtroRegione) && rst.getString("nomeProvincia").equals(filtroProvincia) &&
 										rst.getString("comune").equals(filtroComune)) {
 									listaEventiFiltrata.add(listaEventi.get(i));
