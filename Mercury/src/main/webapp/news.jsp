@@ -15,6 +15,10 @@
                 width: 50%;
                 padding: 30px;
             }
+	    .button{
+		  margin-left:44%;
+		  width:12%
+		}
         </style>
 </head>
 <body> 
@@ -91,9 +95,7 @@
   
   <br>
   
-  <div class="buttonIscriviti">
-	  <input type="submit" value="Iscriviti">
-  </div>
+<input type="submit" value="Iscriviti" class="button">
 	</form>
 </div>
 </div>
