@@ -1,7 +1,6 @@
 @charset "ISO-8859-1";
  body{
    font-family: 'Open Sans', sans-serif;
-   background:#f2f2f2;
    margin: 0 auto 0 auto;  
    width:100%; 
    text-align:center;
@@ -19,11 +18,9 @@
  .box{
    background:white;
    width:500px;
-   
    border-radius:6px;
    margin: auto;
    padding:0px 0px 70px 0px;
-   border: #2980b9 4px solid; 
  }
  #error{
  	color: red;
@@ -58,14 +55,14 @@
    background:#2CC06B; 
  }
 #absoluteCenteredDiv{
+	 background: #1abc9c;
      position: absolute;
      top:0;
      bottom: 0;
      left: 0;
      right: 0;
      margin: auto;
-     width:500px;
-     height: 600px;
+     padding-top:5%;
      text-align: center;
 }
 
@@ -106,4 +103,3 @@ button:hover {
 .container {
   padding: 16px;
 }
-
