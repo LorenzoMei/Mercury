@@ -99,9 +99,33 @@ public class ServletGestione extends HttpServlet {
 				String provincia = (String)(request.getParameter("provincia"));
 				String comune = (String)(request.getParameter("comune"));
 				
-				int idRegione = Utilities.getIdRegione(regione);
-				int idProvincia = Utilities.getIdProvinciaFromRegione(idRegione, provincia);
-				int idComune = Utilities.getIdComuneFromProvincia(idProvincia, comune);
+				int idRegione;
+				int idProvincia;
+				int idComune;
+				
+				if(!regione.equals("Seleziona Regione")) {
+					idRegione = Utilities.getIdRegione(regione);
+					
+					if(!provincia.equals("Seleziona Provincia")) {
+						idProvincia = Utilities.getIdProvinciaFromRegione(idRegione, provincia);
+						
+						if(!comune.equals("Seleziona Comune")) {
+							idComune = Utilities.getIdComuneFromProvincia(idProvincia, comune);
+						}
+						else {
+							idComune = Utilities.getIdComune("0");
+						}
+					}
+					else {
+						idProvincia = Utilities.getIdProvincia("0");
+						idComune = Utilities.getIdComune("0");
+					}
+				}
+				else {
+					idRegione = Utilities.getIdRegione("0"); 
+					idProvincia = Utilities.getIdProvincia("0");
+					idComune = Utilities.getIdComune("0");
+				}
 				
 				Zona zona = new Zona(idRegione, idProvincia, idComune);
 				
