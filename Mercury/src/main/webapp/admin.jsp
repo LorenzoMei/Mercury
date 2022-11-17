@@ -11,8 +11,7 @@
 <link rel="stylesheet" href="css/admin.css">
 </head>
 <body>
-<div id="listaEnti">
-<div class="boxLista">
+<div id="listaEnti" class="boxLista">
 	<h2>Lista degli Enti Autorizzati</h2>
 		<table border="1">
             
@@ -47,12 +46,10 @@
             %>
         </table>
 	</div>
-
-</div>
 <br>
 <hr>
-<div id="listaEntiBannati">
-<div class="boxLista">
+<br>
+<div id="listaEntiBannati" class="boxLista1">
 	<h2>Lista degli Enti Bannati</h2>
 		<table border="1">
             
@@ -88,8 +85,6 @@
             %>
         </table>
 	</div>
-
-</div>
 <footer>
 <form action="ServletEventi">
 <input type="submit" value="HOME">
