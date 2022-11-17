@@ -17,6 +17,10 @@
                 width: 50%;
                 padding: 30px;
             }
+	    .button{
+	  margin-left:44%;
+	  width:12%
+	    }
         </style>
 
 </head>
@@ -91,7 +95,7 @@
 		  <textarea id="descrizioneEvento" name="descrizioneEvento" rows="4" cols="65" required></textarea>
 	</label>
 	<br><br>
-	<input type="submit" value="Aggiungi">
+	<input type="submit" value="Aggiungi" class="button">
 	
 	</form>
 	</div>
