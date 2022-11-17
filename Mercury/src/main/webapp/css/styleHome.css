@@ -62,8 +62,6 @@ label {
  
 .regioneDiv{
   display: none;
-}
-.regioneDiv label {
   padding-left: 40px;
   width: 250px;
   font-size: 14px;
