@@ -104,7 +104,7 @@ public class Utilities {
 
 			Statement st = con.createStatement();
 			ResultSet rst = st.executeQuery("SELECT * FROM evento join zona on zona.idZona = evento.zonaFk join ente on ente.idEnte "
-					+ "= evento.enteFk join utente on ente.utenteFk=utente.idUtente WHERE email = '" + ente.getEmail());
+					+ "= evento.enteFk join utente on ente.utenteFk=utente.idUtente WHERE email = '" + ente.getEmail() + "'");
 			
 			listaEventi = new ArrayList<Evento>();
 			
