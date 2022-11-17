@@ -23,7 +23,7 @@ public class Utilities {
 		try {
 	    	Class.forName("com.mysql.cj.jdbc.Driver");
 	    	String url ="jdbc:mysql://127.0.0.1/mercurydb";
-	    	con = DriverManager.getConnection(url, "root", "admin");
+	    	con = DriverManager.getConnection(url, "root", "root");
 		}
 	    catch(ClassNotFoundException e) {
 	    	System.out.println("errore");
@@ -676,7 +676,7 @@ public class Utilities {
 						}
 					}
 					else {
-						query += "WHERE idRegioni = " + Integer.toString(listaEventi.get(i).getZona().getRegione()) + " GROUP BY nomeRegione";
+						query += " GROUP BY nomeRegione";
 					}
 				}
 				
