@@ -21,7 +21,7 @@
   <h1>MERCURY</h1>
   <h4>Portale eventi su tutto il territorio nazionale</h4>
   <a href="registraEnte.jsp">Sei un ente? Registrati qui!</a>
-  <br>
+  <br><br>
   <a href="news.jsp">Iscriviti alla newsletters qui!</a> 
 </div>
 
