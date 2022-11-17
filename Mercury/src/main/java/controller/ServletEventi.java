@@ -45,34 +45,14 @@ public class ServletEventi extends HttpServlet {
 		}
 		
 		switch(operazione) {
-			
-			case 2: 
-				String nome = (String) request.getParameter("nome");
-				String descrizione = (String) request.getParameter("descrizione");
-				
-				int regione = Integer.parseInt(request.getParameter("regione"));
-				int provincia = Integer.parseInt(request.getParameter("provincia"));
-				int comune = Integer.parseInt(request.getParameter("comune"));
-				Zona zona = new Zona(regione, provincia, comune);
-				
-				String tipo = (String) request.getParameter("tipo");
-				LocalDate dataInizio = (LocalDate) request.getAttribute("dataInizio");
-				LocalDate dataFine = (LocalDate) request.getAttribute("dataFine");
-				
-				String nomeEnte = (String) request.getParameter("nomeEnte");
-				String email = (String) request.getParameter("email");
-				
-				Ente ente = new Ente(nomeEnte, email);
-				
-				Evento evento = new Evento(nome, descrizione, zona, tipo, dataInizio, dataFine, ente);
-				Utilities.aggiungiEvento(evento);
-				
-				break;
 			case 3:
 				Evento e = (Evento) request.getAttribute("evento");
 				request.setAttribute("evento", e);
 				request.getRequestDispatcher("evento.jsp").forward(request, response);
 				break;
+				
+			
+				
 				
 			default:
 				Utilities.connessione();
@@ -89,7 +69,11 @@ public class ServletEventi extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		Ente e = (Ente) request.getSession().getAttribute("ente");
+		List<Evento> eventi = Utilities.listaEventiPerEnte(e);
+		request.setAttribute("listaEventiEnte", eventi);
+		request.getSession().setAttribute("ente", e);
+		request.getRequestDispatcher("adminEnte.jsp").forward(request, response);
 	}
 
 }
