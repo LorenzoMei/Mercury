@@ -30,7 +30,7 @@
             <div class="drop-down-list card">
             <% String nomeEnte = (String) request.getParameter("nomeEnte");
 			String email = (String) request.getParameter("email");%>
-            <form method="post" action="ServletAggiungiEvento?email=<% out.println(nomeEnte); %>&nomeEnte= <%out.println(email);%>">
+            <form method="post" action="ServletAggiungiEvento?email=<% out.println(email); %>&nomeEnte= <%out.println(nomeEnte);%>">
             
             
 
