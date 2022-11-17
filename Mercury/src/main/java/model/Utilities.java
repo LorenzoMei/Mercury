@@ -23,7 +23,7 @@ public class Utilities {
 		try {
 	    	Class.forName("com.mysql.cj.jdbc.Driver");
 	    	String url ="jdbc:mysql://127.0.0.1/mercurydb";
-	    	con = DriverManager.getConnection(url, "root", "root");
+	    	con = DriverManager.getConnection(url, "root", "admin");
 		}
 	    catch(ClassNotFoundException e) {
 	    	System.out.println("errore");
@@ -497,6 +497,48 @@ public class Utilities {
 		
 		Utilities.close();
 		return listaComuni;
+	}
+	
+	public static int getIdComune(String nomeComune) {
+		Utilities.connessione();
+
+		int idComune = -1;
+		
+		try {
+			Statement st = con.createStatement();
+			String query = "select idComuni from comuni where comune = '" + nomeComune + "'";
+			ResultSet rst = st.executeQuery(query);
+		
+		while(rst.next()) {
+			idComune = rst.getInt("idComuni");
+		     }
+		}catch (SQLException e) {
+			 System.out.println(" errore estrapolazione comune");
+	    	   e.printStackTrace();
+		}
+		Utilities.close();
+		return idComune;	
+	}
+	
+	public static int getIdProvincia(String nomeProvincia) {
+		Utilities.connessione();
+
+		int idProvincia = -1;
+		
+		try {
+			Statement st = con.createStatement();
+			String query = "select idProvincia from provincia where comune = '" + nomeProvincia + "'";
+			ResultSet rst = st.executeQuery(query);
+		
+		while(rst.next()) {
+			idProvincia = rst.getInt("idProvincia");
+		     }
+		}catch (SQLException e) {
+			 System.out.println(" errore estrapolazione comune");
+	    	   e.printStackTrace();
+		}
+		Utilities.close();
+		return idProvincia;	
 	}
 	
 	public static ArrayList<String> getRegione() {
