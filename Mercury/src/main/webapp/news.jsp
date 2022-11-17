@@ -5,8 +5,11 @@
 <title>News</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <link rel="stylesheet" href="css/styleHome.css">
         <style type="text/css">
-            
+            body{
+            	background: #1abc9c;
+            }
             .drop-down-list{
                 margin: 150px auto;
                 width: 50%;
@@ -17,34 +20,37 @@
 <body> 
 
 <div class="aggiunta" id="absoluteCenteredDiv">
-    
+     <div class="drop-down-list card">
     <form method="post" action="ServletGestione?operazione=2">
 
-		<h1>FORM ISCRIZIONE NEWSLETTER</h1>
+		<h4>FORM ISCRIZIONE NEWSLETTER</h4>
 		<br>	
 	
-	  
-	  <div class="tipoDiv" id="tipoDiv">
 	  <br>
 		<label for="tipo">Tipologia<br>
+		  <% ArrayList<String> tipi = new ArrayList<String>(); 
+		tipi.add("teatro");
+		tipi.add("mostra");
+		tipi.add("film");
+		tipi.add("concerto");
+		tipi.add("sagra");
+		%>
 		<select name="tipo">
-		  <%
-		  	ArrayList<String> listaTipo = Utilities.getTipo();
-		  	for(int i=0; i < listaTipo.size(); i++){ 
-		  		%>
-		  		<option value="<%out.print(listaTipo.get(i));%>"><% out.print(listaTipo.get(i));%></option>
-		 <%
-		  	}
-		 %>
+		<% for(String s : tipi){
+			%>	
+		<option value="<%out.print(s);%>"><% out.print(s); %></option>
+		<%
+		}
+	%>
 		</select>
 		</label>
-	  </div>
+	 
 	  
 	<br>
 	
 	<label for="zona"> Vuoi selezionare una preferenza sulla zona? </label>
 	
-	  <div class="drop-down-list card">
+	 
                 
               <div class="divider"></div>
            
@@ -63,7 +69,7 @@
                             <option>Seleziona Comune</option>
                         </select>
                     </div>
-            </div>
+            
 	   
 	<br>
 	
@@ -79,7 +85,7 @@
 	  <div class="cadenza" id="cadenzaDiv">
 	  <br>
 		<label for="emailNews">Email<br>
-		<input type="email" name="emailNews">
+		<input type="email" name="emailNews" required>
 		</label>
 	  </div>
   
@@ -89,6 +95,7 @@
 	  <input type="submit" value="Iscriviti">
   </div>
 	</form>
+</div>
 </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
