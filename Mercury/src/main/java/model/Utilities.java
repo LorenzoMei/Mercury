@@ -23,7 +23,7 @@ public class Utilities {
 		try {
 	    	Class.forName("com.mysql.cj.jdbc.Driver");
 	    	String url ="jdbc:mysql://127.0.0.1/mercurydb";
-	    	con = DriverManager.getConnection(url, "root", "root");
+	    	con = DriverManager.getConnection(url, "root", "admin");
 		}
 	    catch(ClassNotFoundException e) {
 	    	System.out.println("errore");
@@ -94,6 +94,44 @@ public class Utilities {
 	    	   } 
 		
 		Utilities.close();
+	}
+	
+	public static List<Evento> listaEventiPerEnte(Ente ente){
+		Utilities.connessione();
+
+		List<Evento> listaEventi = null;
+		try {
+
+			Statement st = con.createStatement();
+			ResultSet rst = st.executeQuery("SELECT * FROM evento join zona on zona.idZona = evento.zonaFk join ente on ente.idEnte "
+					+ "= evento.enteFk join utente on ente.utenteFk=utente.idUtente WHERE email = '" + ente.getEmail());
+			
+			listaEventi = new ArrayList<Evento>();
+			
+			while(rst.next()) {
+				String nome = rst.getString("nome");
+				String descrizione = rst.getString("descrizione");
+				String tipo = rst.getString("tipo");		
+				
+				LocalDate dataInizio = LocalDate.parse(rst.getString("dataInizio"));
+				LocalDate dataFine = LocalDate.parse(rst.getString("dataFine"));
+				
+				int regione = rst.getInt("regionefk");
+				int provincia = rst.getInt("provinciafk");
+				int comune = rst.getInt("comunefk");
+				Zona zona = new Zona(regione, provincia, comune);
+				
+				Evento evento = new Evento(nome, descrizione, zona, tipo, dataInizio, dataFine, ente);
+				
+				listaEventi.add(evento);
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		Utilities.close();
+		return listaEventi;
 	}
 
 	public static List<Evento> listaEventi(){
