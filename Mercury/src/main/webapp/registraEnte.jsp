@@ -38,7 +38,7 @@
 	    <input class="username" type="password" placeholder="Inserisci Password" name="password" required>
 	    <br><br>
       
-      <button type="button" class="cancelbtn">Cancella</button>
+      <button type="reset" class="cancelbtn">Cancella</button>
       <button type="submit" class="signupbtn">Registra Ente</button>
 	    
 	  </div>
