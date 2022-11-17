@@ -81,10 +81,44 @@ public class ServletAggiungiEvento extends HttpServlet {
 			String provincia = request.getParameter("provincia");
 			String comune = request.getParameter("comune");
 			
-			int reg = Utilities.getIdRegione(regione);
-			int prov = Utilities.getIdProvinciaFromRegione(reg, provincia);
-			int com = Utilities.getIdComuneFromProvincia(prov, comune);
+			int reg; 
+			int prov;
+			int com;
+			
+			System.out.println("Regione " + regione);
+			System.out.println("Provincia " + provincia);
+			System.out.println("Comune " + comune);
+			
+			if(!regione.equals("Seleziona Regione")) {
+				reg = Utilities.getIdRegione(regione);
+				
+				if(!provincia.equals("Seleziona Provincia")) {
+					prov = Utilities.getIdProvinciaFromRegione(reg, provincia);
+					
+					if(!comune.equals("Seleziona Comune")) {
+						com = Utilities.getIdComuneFromProvincia(prov, comune);
+					}
+					else {
+						com = Utilities.getIdComune("0");
+					}
+				}
+				else {
+					prov = Utilities.getIdProvincia("0");
+					com = Utilities.getIdComune("0");
+				}
+			}
+			else {
+				reg = Utilities.getIdRegione("0"); 
+				prov = Utilities.getIdProvincia("0");
+				com = Utilities.getIdComune("0");
+			}
+				
 			Zona zona = new Zona(reg, prov, com);
+			
+			System.out.println("Regione " + reg);
+			System.out.println("Provincia " + prov);
+			System.out.println("Comune " + com);
+			
 			
 			String tipo = (String) request.getParameter("tipo");
 			String dataI =  request.getParameter("dataInizio");
